@@ -140,8 +140,8 @@ def main():
         print("no")
 
     qaCheck = add_friendship(alphabetMap, alphaObjs, 'John Doe', 'Lady Jane')
-    #assert (get_friendship(alphabetMap, alphaObjs, 'Lady jane', 'John Doe')
-            #) == True, "ERROR:  Simple constrained validation failed.  Answer may not be accurate."
+    assert (get_friendship(alphabetMap, alphaObjs, 'Lady jane', 'John Doe')
+            ) == True, "ERROR:  Simple constrained validation failed.  Answer may not be accurate."
 
 
 if __name__ == '__main__':
