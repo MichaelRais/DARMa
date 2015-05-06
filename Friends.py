@@ -20,7 +20,7 @@
                             (implies coming up with a naming key of some kind (e.g. Name::email@)) or embedding single-user data structures in set positions.
 
 
-    Data Format:		Friend records --  {'Bob Brown': ['Sam Smith', 'Joe Shepard']}
+    Data Format:		Friend records --  {'Bob Brown': ('Sam Smith', 'Joe Shepard')
                         Alpha lookup for object routing --  {0: 'A', 1: 'B', 2: 'C', 3: 'D', 4: 'E', 5: 'F', 6: 'G', 7: 'H', 8: 'I', 9: 'J', 10: 'K', 11: 'L', 12: 'M', 13: 'N', 14: 'O', 15: 'P', 16: 'Q', 17: 'R', 18: 'S', 19: 'T', 20: 'U', 21: 'V', 22: 'W', 23: 'X', 24: 'Y', 25: 'Z'}
 
 
@@ -57,16 +57,18 @@ class FriendMap():
         sourceGet = self.data.get(source)
         if sourceGet:
             # Target not already associated - if it is do nothing.
-            if target in sourceGet:
+            if target not in sourceGet:
                 oldValue = sourceGet
                 oldValue.add(target)
                 # This can't be combined with above statement
                 newValue = oldValue
+                #del self.data[source]
                 self.data[source] = newValue
         else:
             item = set()
             item.add(target)
             self.data[source] = item
+        #print("DATA(" + self.range + "-" + target + "): " + str(self.data)) #Debug
 
     def get_friend_map(self, source, target):
         source, target = source.title(), target.title()  # Titlecase everything
