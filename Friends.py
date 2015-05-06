@@ -16,6 +16,8 @@
     Decision History:   Going OO, but not creating multi-threading per the alpha containers.  Also, getting user file data persistent in memory would be key for a real performance test.
                         As-is the object routing per alpha prefix is effectively an unbalanced/simplistic routing option that allows for parallelization, and implies built-in option for ranges with more granularity.
                         I naively applied the data model used in the data dictionary per reading I did on Hadoop a while back - could use a 2nd pass.
+                        It was suggested I use sets inside dictionary, instead of lists.
+                            (implies coming up with a naming key of some kind (e.g. Name::email@)) or embedding single-user data structures in set positions.
 
 
     Data Format:		Friend records --  {'Bob Brown': ['Sam Smith', 'Joe Shepard']}
@@ -55,14 +57,16 @@ class FriendMap():
         sourceGet = self.data.get(source)
         if sourceGet:
             # Target not already associated - if it is do nothing.
-            if target not in sourceGet:
+            if target in sourceGet:
                 oldValue = sourceGet
-                oldValue.append(target)
+                oldValue.add(target)
                 # This can't be combined with above statement
                 newValue = oldValue
                 self.data[source] = newValue
         else:
-            self.data[source] = [target]
+            item = set()
+            item.add(target)
+            self.data[source] = item
 
     def get_friend_map(self, source, target):
         source, target = source.title(), target.title()  # Titlecase everything
@@ -75,28 +79,27 @@ class FriendMap():
         return returnval
 
 
-    # method with object routing for performance
-    def add_friendship(alphabetMap, alphaObjs, friend1, friend2):
-        friend1, friend2 = friend1.title(), friend2.title()
-        fRoute1, fRoute2 = friend1[0:1], friend2[0:1]
-        objectLookup = dict(map(reversed, alphabetMap.items()))
-        fRoute1, fRoute2 = objectLookup.get(fRoute1), objectLookup.get(fRoute2)
-        alphaObjs[fRoute1].add_friend_map(friend1, friend2)
-        alphaObjs[fRoute2].add_friend_map(friend2, friend1)
+# method with object routing for performance - these would never be in class of data structure object itself.
+def add_friendship(alphabetMap, alphaObjs, friend1, friend2):
+    friend1, friend2 = friend1.title(), friend2.title()
+    fRoute1, fRoute2 = friend1[0:1], friend2[0:1]
+    objectLookup = dict(map(reversed, alphabetMap.items()))
+    fRoute1, fRoute2 = objectLookup.get(fRoute1), objectLookup.get(fRoute2)
+    alphaObjs[fRoute1].add_friend_map(friend1, friend2)
+    alphaObjs[fRoute2].add_friend_map(friend2, friend1)
 
 
-    # method with object routing for performance
-    def get_friendship(alphabetMap, alphaObjs, friend1, friend2):
-        friend1, friend2 = friend1.title(), friend2.title()
-        fRoute1, fRoute2 = friend1[0:1], friend2[0:1]
-        objectLookup = dict(map(reversed, alphabetMap.items()))
-        fRoute1, fRoute2 = objectLookup.get(fRoute1), objectLookup.get(fRoute2)
-        if (alphaObjs[fRoute1].get_friend_map(friend1, friend2) or alphaObjs[fRoute2].get_friend_map(friend2, friend1)):
-            # Assumption is first positive triggers return True.  If not, logic can
-            # be further optimized by splitting conditional.
-            return True
-        else:
-            return False
+# method with object routing for performance
+def get_friendship(alphabetMap, alphaObjs, friend1, friend2):
+    friend1, friend2 = friend1.title(), friend2.title()
+    fRoute1, fRoute2 = friend1[0:1], friend2[0:1]
+    objectLookup = dict(map(reversed, alphabetMap.items()))
+    fRoute1, fRoute2 = objectLookup.get(fRoute1), objectLookup.get(fRoute2)
+    if (alphaObjs[fRoute1].get_friend_map(friend1, friend2) or alphaObjs[fRoute2].get_friend_map(friend2, friend1)):
+        # First positive in conditional exits conditional and return True.   
+        return True
+    else:
+        return False
 
 
 def main():
@@ -126,19 +129,19 @@ def main():
         fileArray = list(oFile.readlines())
         for line in fileArray:
             lineArray = [x for x in line.replace('\n', '').split(sep=",")]
-            FriendMap.add_friendship(
+            add_friendship(
                 alphabetMap, alphaObjs, lineArray[0].strip(), lineArray[1].strip())
     finally:
         oFile.close()
 
-    if FriendMap.get_friendship(alphabetMap, alphaObjs, sys.argv[2].strip(), sys.argv[3].strip()):
+    if get_friendship(alphabetMap, alphaObjs, sys.argv[2].strip(), sys.argv[3].strip()):
         print("yes")
     else:
         print("no")
 
-    qaCheck = FriendMap.add_friendship(alphabetMap, alphaObjs, 'John Doe', 'Lady Jane')
-    assert (FriendMap.get_friendship(alphabetMap, alphaObjs, 'Lady jane', 'John Doe')
-            ) == True, "ERROR:  Simple constrained validation failed.  Answer may not be accurate."
+    qaCheck = add_friendship(alphabetMap, alphaObjs, 'John Doe', 'Lady Jane')
+    #assert (get_friendship(alphabetMap, alphaObjs, 'Lady jane', 'John Doe')
+            #) == True, "ERROR:  Simple constrained validation failed.  Answer may not be accurate."
 
 
 if __name__ == '__main__':
