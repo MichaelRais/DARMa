@@ -36,7 +36,7 @@ import sys
 
 
 __author__ = "Michael Rais"
-__version__ = "0.1-alpha"
+__version__ = "0.2-alpha"
 __maintainer__ = "Michael Rais"
 __email__ = "mrais@inbox.com"
 __status__ = "Development"
