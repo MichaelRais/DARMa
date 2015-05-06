@@ -16,11 +16,13 @@
     Decision History:   Going OO, but not creating multi-threading per the alpha containers.  Also, getting user file data persistent in memory would be key for a real performance test.
                         As-is the object routing per alpha prefix is effectively an unbalanced/simplistic routing option that allows for parallelization, and implies built-in option for ranges with more granularity.
                         I naively applied the data model used in the data dictionary per reading I did on Hadoop a while back - could use a 2nd pass.
-                        It was suggested I use sets inside dictionary, instead of lists.
+                        Anthony suggested I use sets inside dictionary, instead of lists.
                             (implies coming up with a naming key of some kind (e.g. Name::email@)) or embedding single-user data structures in set positions.
+                        Anthony also mentioned a better way to read in file but don't see it.
+                        I installed Pep8 formatter in Sublimetext, but not many changes. 
 
 
-    Data Format:		Friend records --  {'Bob Brown': ('Sam Smith', 'Joe Shepard')
+    Data Format:		Friend records --  {'Bob Brown': {'Sam Smith', 'Joe Shepard'}
                         Alpha lookup for object routing --  {0: 'A', 1: 'B', 2: 'C', 3: 'D', 4: 'E', 5: 'F', 6: 'G', 7: 'H', 8: 'I', 9: 'J', 10: 'K', 11: 'L', 12: 'M', 13: 'N', 14: 'O', 15: 'P', 16: 'Q', 17: 'R', 18: 'S', 19: 'T', 20: 'U', 21: 'V', 22: 'W', 23: 'X', 24: 'Y', 25: 'Z'}
 
 
