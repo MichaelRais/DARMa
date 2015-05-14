@@ -1,17 +1,17 @@
 """ Summary:            Friends is question #3 from the Reelio test.
 
-    P-Version:          QA'd on Python 3.4.1	
+    P-Version:          QA'd on Python 3.4.1
 
     Knowledge domains:  Relationship networks, performance profiling
-   						(e.g. import cProfile|profile, profile.run('main()' -or-
-   						python -m cProfile [-o output_file] [-s sort_order] myscript.py)
+                        (e.g. import cProfile|profile, profile.run('main()' -or-
+                        python -m cProfile [-o output_file] [-s sort_order] myscript.py)
 
     Candidates Eval'd:	Data model, map/reduce (functools module), OOD
-   						    
+
 
     Considerations:		Short on time so trading off succinct requirement for functional requirement.
                         Intended usage of the system implies need for conceptual parallelization being designed in.  As implemented, there's still some blocking, but it's better than a monolithic container object.  With this design, full logical & Physical parallization is easier done later.
- 
+
 
     Decision History:   Going OO, but not creating multi-threading per the alpha containers.  Also, getting user file data persistent in memory would be key for a real performance test.
                         As-is the object routing per alpha prefix is effectively an unbalanced/simplistic routing option that allows for parallelization, and implies built-in option for ranges with more granularity.
@@ -19,7 +19,7 @@
                         Anthony suggested I use sets inside dictionary, instead of lists.
                             (implies coming up with a naming key of some kind (e.g. Name::email@)) or embedding single-user data structures in set positions.
                         Anthony also mentioned a better way to read in file but don't see it.
-                        I installed Pep8 formatter in Sublimetext, but not many changes. 
+                        I installed Pep8 formatter in Sublimetext, but not many changes.
 
 
     Data Format:		Friend records --  {'Bob Brown': {'Sam Smith', 'Joe Shepard'}
@@ -27,7 +27,7 @@
 
 
     Script Usage:       python Friends.py <filename> <name1> <name2>
-   					
+
 
     Note:               There is gratuitous overdesign here but it was more natural to me than code shaving the test so I went for the exercise as relevant to production environments.
 """
@@ -54,7 +54,7 @@ class FriendMap():
         return self.data.get(source)
 
     def add_friend_map(self, source, target):
-        source, target = source.title(), target.title()  # Titlecase everything      
+        source, target = source.title(), target.title()  # Titlecase everything
         # If source already exists, check if target associated or not
         sourceGet = self.data.get(source)
         if sourceGet:
@@ -64,13 +64,14 @@ class FriendMap():
                 oldValue.add(target)
                 # This can't be combined with above statement
                 newValue = oldValue
-                #del self.data[source]
+                # del self.data[source]
                 self.data[source] = newValue
         else:
             item = set()
             item.add(target)
             self.data[source] = item
-        #print("DATA(" + self.range + "-" + target + "): " + str(self.data)) #Debug
+        # print("DATA(" + self.range + "-" + target + "): " + str(self.data))
+        # #Debug
 
     def get_friend_map(self, source, target):
         source, target = source.title(), target.title()  # Titlecase everything
@@ -83,7 +84,8 @@ class FriendMap():
         return returnval
 
 
-# method with object routing for performance - these would never be in class of data structure object itself.
+# method with object routing for performance - these would never be in
+# class of data structure object itself.
 def add_friendship(alphabetMap, alphaObjs, friend1, friend2):
     friend1, friend2 = friend1.title(), friend2.title()
     fRoute1, fRoute2 = friend1[0:1], friend2[0:1]
@@ -100,7 +102,7 @@ def get_friendship(alphabetMap, alphaObjs, friend1, friend2):
     objectLookup = dict(map(reversed, alphabetMap.items()))
     fRoute1, fRoute2 = objectLookup.get(fRoute1), objectLookup.get(fRoute2)
     if (alphaObjs[fRoute1].get_friend_map(friend1, friend2) or alphaObjs[fRoute2].get_friend_map(friend2, friend1)):
-        # First positive in conditional exits conditional and return True.   
+        # First positive in conditional exits conditional and return True.
         return True
     else:
         return False
