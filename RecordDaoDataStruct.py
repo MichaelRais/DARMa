@@ -5,7 +5,7 @@ from DarmaRecordDAO import DarmaRecordDAO
 
 
 class RecordDaoDataStruct(DarmaRecordDAO):
-    def RecordDaoDataStruct(self,Configuration):
+    def __init__(self,Configuration):
     	"""Constructor that should do something"""
     	return
 
