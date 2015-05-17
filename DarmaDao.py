@@ -11,19 +11,15 @@ class DarmaDao(DarmaRecordDaoAbstract, ConfigurationAbstract):
         ConfigurationAbstract.__init__(self)
         DarmaRecordDaoAbstract.__init__(self)
 
-    #def get_configuration_info(self):
-     #   import json
-     #   return json.dumps(self.configJson, indent=4)
-        # """Method that should do something."""
-        #pass
+    def get_configuration_info(self):
+        #return super(DarmaDao,self).get_configuration_info()
+        return ConfigurationAbstract.get_configuration_info(self)
 
     def initialize_record_array(self, controlMode, initRule):
         """Method that should do something."""
         # Gets Configuration information and loads array accordingly
         # This could probably reference another method or object "fileloader".
         return
-
-
 
     def get_range_info(self):
         """Method that should do something."""
