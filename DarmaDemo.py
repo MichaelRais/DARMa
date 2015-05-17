@@ -1,11 +1,14 @@
 # Local client usage
 
-from Configuration import Configuration
-from RecordDaoImpl import RecordDaoImpl
+#from ConfigurationAbstract import ConfigurationAbstract
+#from DarmaRecordDaoAbstract import DarmaRecordDaoAbstract
+from DarmaDao import DarmaDao
 
 def main(): 
-    oc = Configuration()
-    od = RecordDaoImpl()
+    #oc = ConfigurationAbstract()
+    od = DarmaDao()
+    v = od.get_configuration_info()
+    print(v)
     # It's unclear if you ever directly access base class. (e.g. interface)
 
 if __name__ == '__main__':

@@ -5,13 +5,11 @@ import abc
 #import RecordDaoImpl   #Usage TBD
 
 
-class DarmaRecordDao(object):
+class DarmaRecordDaoAbstract(object):
     __metaclass__ = abc.ABCMeta
 
-    @abc.abstractmethod
-    def get_configuration_info(self):
-        """Method that gets configuration info."""
-        raise NotImplementedError()  #If not overridden then this should fire.
+    def __init__(self):
+        print("DRDA")
 
     @abc.abstractmethod
     def add_value_map(self, source, target):
@@ -24,7 +22,8 @@ class DarmaRecordDao(object):
 
     @abc.abstractmethod
     def del_value_map(self, source, target):
-    	"""Method that deletes value map(s) per configuration options, if it/they exist(s)"""
+        """Method that deletes value map(s) per configuration options, if it/they exist(s)"""
+        raise NotImplementedError()  #If not overridden then this should fire.
 
     @abc.abstractmethod
     def get_values(self, source):

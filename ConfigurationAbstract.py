@@ -15,15 +15,15 @@ OPTIONS DESCRIPTION:
 
 """
 
-import json
 import abc
-#from DarmaRecordDao import DarmaRecordDao
+import json
 
 __author__ = "Michael Rais"
 
 
-class Configuration():
-
+class ConfigurationAbstract(object):
+    __metaclass__ = abc.ABCMeta
+    
     def __init__(self):
         """Constructor."""
         # Defaults listed.   Defaults are overridden if config file read contains override for setting.
@@ -36,6 +36,7 @@ class Configuration():
         # Load of configuration.
         self.load_configuration_file()
 
+    @abc.abstractmethod
     def load_configuration_file(self):
         configUsableFlag = False
         config = (
@@ -82,6 +83,7 @@ class Configuration():
                     print("  \-> WARNING: Unexpected config key '" + key + "' can't be used.")
         return
 
+    @abc.abstractmethod
     def get_configuration_info(self):
         return json.dumps(self.configJson, indent=4)
 
