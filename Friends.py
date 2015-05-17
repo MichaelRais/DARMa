@@ -1,4 +1,6 @@
-""" Summary:            Friends is question #3 from the Reelio test.
+""" Summary:            Friends is a test project.
+
+    Purpose:            See Friends.docx for description
 
     P-Version:          QA'd on Python 3.4.1
 
@@ -9,27 +11,11 @@
     Candidates Eval'd:	Data model, map/reduce (functools module), OOD
 
 
-    Considerations:		Short on time so trading off succinct requirement for functional requirement.
-                        Intended usage of the system implies need for conceptual parallelization being designed in.  As implemented, there's still some blocking, but it's better than a monolithic container object.  With this design, full logical & Physical parallization is easier done later.
-
-
-    Decision History:   Going OO, but not creating multi-threading per the alpha containers.  Also, getting user file data persistent in memory would be key for a real performance test.
-                        As-is the object routing per alpha prefix is effectively an unbalanced/simplistic routing option that allows for parallelization, and implies built-in option for ranges with more granularity.
-                        I naively applied the data model used in the data dictionary per reading I did on Hadoop a while back - could use a 2nd pass.
-                        Anthony suggested I use sets inside dictionary, instead of lists.
-                            (implies coming up with a naming key of some kind (e.g. Name::email@)) or embedding single-user data structures in set positions.
-                        Anthony also mentioned a better way to read in file but don't see it.
-                        I installed Pep8 formatter in Sublimetext, but not many changes.
-
-
     Data Format:		Friend records --  {'Bob Brown': {'Sam Smith', 'Joe Shepard'}
                         Alpha lookup for object routing --  {0: 'A', 1: 'B', 2: 'C', 3: 'D', 4: 'E', 5: 'F', 6: 'G', 7: 'H', 8: 'I', 9: 'J', 10: 'K', 11: 'L', 12: 'M', 13: 'N', 14: 'O', 15: 'P', 16: 'Q', 17: 'R', 18: 'S', 19: 'T', 20: 'U', 21: 'V', 22: 'W', 23: 'X', 24: 'Y', 25: 'Z'}
 
 
     Script Usage:       python Friends.py <filename> <name1> <name2>
-
-
-    Note:               There is gratuitous overdesign here but it was more natural to me than code shaving the test so I went for the exercise as relevant to production environments.
 """
 
 

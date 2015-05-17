@@ -1,15 +1,17 @@
 # In Java-land this would be the interface.  As this is Python, it's an abstract class since Python support multiple inheritence.
 
 import abc
+#import Configuration  # Usage TBD
+#import RecordDaoImpl   #Usage TBD
 
 
-class DarmaRecordDAO(object):
+class DarmaRecordDao(object):
     __metaclass__ = abc.ABCMeta
 
     @abc.abstractmethod
     def get_configuration_info(self):
         """Method that gets configuration info."""
-        return
+        raise NotImplementedError()  #If not overridden then this should fire.
 
     @abc.abstractmethod
     def add_value_map(self, source, target):
@@ -26,4 +28,4 @@ class DarmaRecordDAO(object):
 
     @abc.abstractmethod
     def get_values(self, source):
-    	"""Method that gets all values associated/mapped with/to a source key
+    	"""Method that gets all values associated/mapped with/to a source key"""

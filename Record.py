@@ -3,6 +3,8 @@
 class Record():
     def __init__(self):
         """Constructor."""
+        self.range ''
+        self.data = {}
         return
 
     def create_record_array(self, dataMode, rangeRule):
