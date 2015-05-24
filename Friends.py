@@ -116,15 +116,16 @@ def main():
               sys.argv[0] + " 'filename' 'fname lname' 'fname lname'")
         exit(0)
 
-    oFile = open(sys.argv[1], 'r')
-    try:
-        fileArray = list(oFile.readlines())
+#   oFile = open(sys.argv[1], 'r')
+#    try:
+#        fileArray = list(oFile.readlines())
+    with open(sys.argv[1], 'r') as fileArray:
         for line in fileArray:
             lineArray = [x for x in line.replace('\n', '').split(sep=",")]
             add_friendship(
                 alphabetMap, alphaObjs, lineArray[0].strip(), lineArray[1].strip())
-    finally:
-        oFile.close()
+#    finally:
+#        oFile.close()
 
     if get_friendship(alphabetMap, alphaObjs, sys.argv[2].strip(), sys.argv[3].strip()):
         print("yes")

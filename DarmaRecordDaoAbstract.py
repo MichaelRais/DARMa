@@ -9,7 +9,14 @@ class DarmaRecordDaoAbstract(object):
     __metaclass__ = abc.ABCMeta
 
     def __init__(self):
-        print("DRDA")
+        #print("DRDA")
+        pass
+
+    @abc.abstractmethod
+    def initialize_record_array(self, controlMode, initRule):
+        print("PASS: " + controlMode + " | " + initRule)
+        """The controlMode/initRule defaults should come in this way, so these defaults are possibly over-conservative"""
+        return
 
     @abc.abstractmethod
     def add_value_map(self, source, target):

@@ -26,7 +26,7 @@ class ConfigurationAbstract(object):
     
     def __init__(self):
         """Constructor."""
-        # Defaults listed.   Defaults are overridden if config file read contains override for setting.
+        # Generic defaults listed.   These settings are overridden if config file read contains override for setting.
         # Options described in header.
         self.initRule = 'file'
         self.rangeRule = 'alpha'
@@ -36,10 +36,8 @@ class ConfigurationAbstract(object):
         # Load of configuration.
         self.load_configuration_file()
 
-    @abc.abstractmethod
-    def load_configuration_file(self):
-        configUsableFlag = False
-        config = (
+    def set_config_string(self):
+        configJson = (
             '{'
             '"initRule" : "' + self.initRule + '", '
             '"rangeRule" : "' + self.rangeRule + '", '
@@ -47,7 +45,13 @@ class ConfigurationAbstract(object):
             '"controlMode" : "' + self.controlMode + '"'
             '}'
         )  # Init of default settings
-        self.configJson = json.loads(config)  # NOTE: loads is for strings.  load is for file.
+        self.configJson = json.loads(configJson)  # NOTE: "loads" is for strings.  "load" is for file.
+        return self.configJson
+
+    @abc.abstractmethod
+    def load_configuration_file(self):
+        configUsableFlag = False
+        configJson = self.set_config_string()
 
         try:
             # json.dump(config, open('./config.json', 'w'), indent=4)
@@ -70,7 +74,7 @@ class ConfigurationAbstract(object):
         if configUsableFlag:
             # Assign captured config settings.   Any that aren't specified use the defaults.
             for key, value in self.configJson.items():
-                print(" " + key + ": " + value)
+                #print(" " + key + ": " + value)
                 if key == 'initRule':
                     self.initRule = value
                 elif key == 'rangeRule':
@@ -81,11 +85,26 @@ class ConfigurationAbstract(object):
                     self.controlMode = value
                 else:
                     print("  \-> WARNING: Unexpected config key '" + key + "' can't be used.")
-        return
+            configJson = self.set_config_string()
+        return self.get_configuration_info()
 
     @abc.abstractmethod
     def get_configuration_info(self):
         return json.dumps(self.configJson, indent=4)
+
+    @abc.abstractmethod
+    def get_config_value(self, configJson, getKey):
+        returnValue = ''
+        configJson = json.loads(configJson)
+        for key, value in configJson.items():
+            if key.lower() == getKey.lower():
+                returnValue = value.lower()
+        return returnValue
+
+    @abc.abstractmethod
+    def get_range_info(self):
+        """Method that should do something."""
+        pass
 
 
 if __name__ == '__main__':
