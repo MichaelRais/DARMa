@@ -2,6 +2,7 @@
 
 #from ConfigurationAbstract import ConfigurationAbstract
 #from DarmaRecordDaoAbstract import DarmaRecordDaoAbstract
+import sys
 from DarmaDao import DarmaDao
 
 def main(): 
@@ -10,6 +11,11 @@ def main():
     v = od.get_configuration_info()
     print(v)
     w = od.initialize_record_array()
+
+    if od.get_value_map(sys.argv[2].strip(), sys.argv[3].strip()):
+        print("yes")
+    else:
+        print("no")
     
     # It's unclear if you ever directly access base class. (e.g. interface)
 
@@ -21,10 +27,10 @@ if __name__ == '__main__':
 """
 ----->> TODO LIST <<-----
 Batch 1)
-Placement of DarmaDao call of Record class.
 Time to implement singleton for initialization logic and factory for the rest?
-Placement of DarmaDao constructor "self.configJson = ConfigurationAbstract.get_configuration_info(self)"
+
 
 Batch 2) 
+If you pass config around as a pojo, you can just access in each object.
 Thread spin-off of service & checking for instantiated data
 """

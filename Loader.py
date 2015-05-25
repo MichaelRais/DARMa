@@ -1,10 +1,12 @@
-# This is a/the utilty class for DarmaDao 
+# This is the Loader class used DarmaDao
+# Options based on controlMode and initRule
+# DEMONSTRATOR IMPLEMENTATION:  Currently only localhost/file supported
 
 import sys
 import traceback
 #from DarmaDao import DarmaDao # QUESTION: To avoid using excess memory, I call add_value_map from here, instead of passing back file contents.   Convention?
 
-class DarmaDaoUtils():
+class Loader():
     def __init__(self):
         pass
  
@@ -45,9 +47,9 @@ class DarmaDaoUtils():
                 print("Script usage is: " +
                     sys.argv[0] + " 'filename' 'any mapping' 'any mapping'\n" +
                     " Any alphanumeric with space allowed in anymapping fields. \n" + 
-                    " The filename is used for both data load and to identify the \n" +
+                    " The filename is used for both data load [and to identify the \n" +
                     " namespace of the data model. First usage loads the data from \n" +
-                    " the filename, and afterwards the relevant data model is used. \n"
+                    " the filename, and afterwards the relevant data model is used.] \n"
                 )
                 exit(1)
 
