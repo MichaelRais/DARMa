@@ -39,17 +39,22 @@ class Loader():
     def load_from_file(self, controlModeValue):
         returnData = []
         if controlModeValue == "remote":
-            pass
             # Logic for remote file load TBD
+            pass
+        elif controlModeValue == "interface":
+            # This is a benchmarking mode so file hardcoded
+            mappingFile = 'mappings.txt'
+            with open(mappingFile, 'r') as fileArray:
+                for line in fileArray:
+                    line = [x for x in line.replace('\n', '').split(sep="|")]
+                    returnData.append(line)
         elif controlModeValue == "localhost":
-            if len(sys.argv) != 4:
-                # Security considerations for argument capture beyond scope of demonstrator.
+            # This is a run mode so file delivered in argument
+            if len(sys.argv) != 2:
+                # Security considerations for argument capture affect demonstrator only, so not real-world.
                 print("Script usage is: " +
-                    sys.argv[0] + " 'filename' 'any mapping' 'any mapping'\n" +
-                    " Any alphanumeric with space allowed in anymapping fields. \n" + 
-                    " The filename is used for both data load [and to identify the \n" +
-                    " namespace of the data model. First usage loads the data from \n" +
-                    " the filename, and afterwards the relevant data model is used.] \n"
+                    sys.argv[0] + " 'filename'\n" +
+                    " After that, only provide map pairs: 'any mapping | any mapping'  \n"
                 )
                 exit(1)
 
@@ -73,5 +78,5 @@ class Loader():
         else:
             print(
             "\nERROR: File load method not properly declared|caught.  Halting. \n")
-            exit(0)
+            exit(1)
         return returnData

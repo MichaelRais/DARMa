@@ -38,13 +38,12 @@ class DarmaDao(DarmaRecordDaoAbstract, ConfigurationAbstract):
         return ConfigurationAbstract.load_configuration_file(self)
 
     def initialize_record_array(self):
-        """Gets Configuration information and loads array accordingly
-        This could probably reference another method or object "fileloader"."""
-        # return DarmaRecordDaoAbstract.initialize_record_array(self, controlModeValue, initRuleValue)
+        # Gets Configuration information and loads array accordingly
         ddLoader = Loader()
         ddLoaderData = ddLoader.load_records(self.controlModeValue, self.initRuleValue)
         for source,target in ddLoaderData:
             self.add_value_map(source,target)
+        return True
 
     def add_value_map(self, source, target):     
         returnval = False

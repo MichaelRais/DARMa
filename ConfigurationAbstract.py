@@ -5,7 +5,7 @@ CONFIG FILE: ./config.json
 CONTENTS EXAMPLE:
     {
         "initRule": "file",
-        "rangeRule": "alpha",
+        "rangeRule": "alphanum",
         "controlMode": "localhost",
         "dataMode": "bid"
     }
@@ -29,7 +29,7 @@ class ConfigurationAbstract(metaclass=abc.ABCMeta):
         # Generic defaults listed.   These settings are overridden if config file read contains override for setting.
         # Options described in header.
         self.initRule = 'file'
-        self.rangeRule = 'alpha'
+        self.rangeRule = 'alphanum'
         self.dataMode = 'bid'
         self.controlMode = 'localhost'
         self.configJson = ''

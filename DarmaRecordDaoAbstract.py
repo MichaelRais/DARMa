@@ -1,8 +1,6 @@
 # In Java-land this would be the interface.  As this is Python, it's an abstract class since Python support multiple inheritence.
 
 import abc
-#import Configuration  # Usage TBD
-#import RecordDaoImpl   #Usage TBD
 
 
 class DarmaRecordDaoAbstract(metaclass=abc.ABCMeta):
