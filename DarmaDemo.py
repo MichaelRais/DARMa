@@ -16,6 +16,13 @@ def main():
         print("yes")
     else:
         print("no")
+
+    print("VALUE LIST: " + str(od.get_values(sys.argv[2].strip())))
+
+    od.del_value_map(sys.argv[2].strip(), sys.argv[3].strip())
+    print("VALUE LIST (post-del): " + str(od.get_values(sys.argv[2].strip())))
+
+    print("Range Info: " + str(od.get_range_info()))
     
     # It's unclear if you ever directly access base class. (e.g. interface)
 

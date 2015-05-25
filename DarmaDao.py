@@ -14,9 +14,9 @@ class DarmaDao(DarmaRecordDaoAbstract, ConfigurationAbstract):
         DarmaRecordDaoAbstract.__init__(self)
         # Configs to pass
         self.configJson = ConfigurationAbstract.get_configuration_info(self)
-        self.controlModeValue = ConfigurationAbstract.get_config_value(self, self.configJson, 'controlMode')
-        self.initRuleValue = ConfigurationAbstract.get_config_value(self, self.configJson, 'initRule')
-        self.dataModeValue = ConfigurationAbstract.get_config_value(self, self.configJson, 'dataMode')
+        self.controlModeValue = ConfigurationAbstract.get_configuration_value(self, self.configJson, 'controlMode')
+        self.initRuleValue = ConfigurationAbstract.get_configuration_value(self, self.configJson, 'initRule')
+        self.dataModeValue = ConfigurationAbstract.get_configuration_value(self, self.configJson, 'dataMode')
         """def load_configuration_file(self):
         #TBD if this is implemented here.  Consistent with interface, but not required.
         return ConfigurationAbstract.load_configuration_file(self)
@@ -28,9 +28,14 @@ class DarmaDao(DarmaRecordDaoAbstract, ConfigurationAbstract):
         #return super(DarmaDao,self).get_configuration_info()
         return self.configJson
 
+    def get_configuration_value(self):
+        return ConfigurationAbstract.get_configuration_value(self)
+
     def get_range_info(self):
-        """Method that should do something."""
-        return
+        return self.rRelay.get_range_info()
+
+    def load_configuration_file(self):
+        return ConfigurationAbstract.load_configuration_file(self)
 
     def initialize_record_array(self):
         """Gets Configuration information and loads array accordingly
@@ -66,12 +71,20 @@ class DarmaDao(DarmaRecordDaoAbstract, ConfigurationAbstract):
         return returnval
 
     def del_value_map(self, source, target):
-        """Method that should do something."""
-        return
+        returnval = False
+        if self.dataModeValue == "uni":
+            if self.rRelay.del_value(source.strip(), target.strip()):
+                returnval = True
+        elif self.dataModeValue == "bid":
+            if self.rRelay.del_value(target.strip(), source.strip()):
+                returnval = True
+        return returnval
 
     def get_values(self, source):
-        """Method that should do something."""
-        return
+        returnval = ''
+        if self.rRelay.get_values_list(source.strip()):
+            returnval = self.rRelay.get_values_list(source.strip())
+        return returnval
 
 
 if __name__ == '__main__':

@@ -21,8 +21,8 @@ import json
 __author__ = "Michael Rais"
 
 
-class ConfigurationAbstract(object):
-    __metaclass__ = abc.ABCMeta
+class ConfigurationAbstract(metaclass=abc.ABCMeta):
+   #__metaclass__ = abc.ABCMeta
     
     def __init__(self):
         """Constructor."""
@@ -93,7 +93,7 @@ class ConfigurationAbstract(object):
         return json.dumps(self.configJson, indent=4)
 
     @abc.abstractmethod
-    def get_config_value(self, configJson, getKey):
+    def get_configuration_value(self, configJson, getKey):
         returnValue = ''
         configJson = json.loads(configJson)
         for key, value in configJson.items():
