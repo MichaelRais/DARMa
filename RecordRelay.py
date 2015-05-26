@@ -1,4 +1,5 @@
 # Data structure relay object
+
 from Record import Record
 
 class RecordRelay(object):

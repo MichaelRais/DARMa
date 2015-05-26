@@ -63,6 +63,6 @@ class Record():
                 self.data[key] = newValue
             returnval = True
 
-    def get_key_exists(self, key):
-        """Method that should do something."""
-        return
+    #def get_key_exists(self, key):
+    #    """Method that should do something."""
+     #   return

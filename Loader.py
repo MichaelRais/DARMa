@@ -3,8 +3,9 @@
 # DEMONSTRATOR IMPLEMENTATION:  Currently only localhost/file supported
 
 import sys
+import re
 import traceback
-#from DarmaDao import DarmaDao # QUESTION: To avoid using excess memory, I call add_value_map from here, instead of passing back file contents.   Convention?
+#from DarmaDao import DarmaDao # QUESTION: To avoid briefly using excess memory in production, I could call add_value_map from here, instead of passing back file contents.  Convention?
 
 class Loader():
     def __init__(self):
@@ -47,6 +48,9 @@ class Loader():
             with open(mappingFile, 'r') as fileArray:
                 for line in fileArray:
                     line = [x for x in line.replace('\n', '').split(sep="|")]
+                    for n in range(0, len(line)):
+                        line[n] = line[n].strip()
+                        line[n] = re.sub(r'^"|"$|^\'|\'$', '', line[n]) # Remove leading/trailing quotes only (allow O'Reilly, etc. of the world)
                     returnData.append(line)
         elif controlModeValue == "localhost":
             # This is a run mode so file delivered in argument
@@ -62,6 +66,9 @@ class Loader():
                 with open(sys.argv[1], 'r') as fileArray:
                     for line in fileArray:
                         line = [x for x in line.replace('\n', '').split(sep="|")]
+                        for n in range(0, len(line)):
+                            line[n] = line[n].strip()
+                            line[n] = re.sub(r'^"|"$|^\'|\'$', '', line[n]) # Remove leading/trailing quotes only (allow O'Reilly, etc. of the world)
                         returnData.append(line)
             except FileNotFoundError:
                 print("\nERROR: File load failed.  Halting. \n")
@@ -71,10 +78,6 @@ class Loader():
                 print("\nERROR: Unknown error.  Halting. \n")
                 traceback.print_exc()
                 exit(1)
-
-                        #dd = DarmaDao()
-                        #dd.add_value_map(
-                        #    alphabetMap, alphaObjs, lineArray[0].strip(), lineArray[1].strip())
         else:
             print(
             "\nERROR: File load method not properly declared|caught.  Halting. \n")

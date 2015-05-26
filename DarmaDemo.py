@@ -1,14 +1,13 @@
 # Local client usage
 
-#from ConfigurationAbstract import ConfigurationAbstract
-#from DarmaRecordDaoAbstract import DarmaRecordDaoAbstract
 import sys
+import re
 from DarmaDao import DarmaDao
 
 def main(): 
     scriptWrapCache = None
     
-    # BEGIN: Cache logic test
+    # BEGIN: Indefinite user prompt
     while True:
             if not scriptWrapCache:
                 dd = DarmaDao()
@@ -22,7 +21,13 @@ def main():
             except KeyboardInterrupt:
                 exit(1)
 
-            lineread = [x for x in lineread.replace('\n', '').replace('\'', '').replace('\"', '').split(sep="|")]
+            #lineread = [x for x in lineread.replace('\n', '').replace('\'', '').replace('\"', '').split(sep="|")]
+            lineread = [x for x in lineread.replace('\n', '').split(sep="|")]
+            for n in range(0, len(lineread)):
+                lineread[n] = lineread[n].strip()
+                lineread[n] = re.sub(r'^"|"$|^\'|\'$', '', lineread[n]) # Remove leading/trailing quotes only (allow O'Reilly, etc. of the world)
+
+            #print(lineread)            
             if len(lineread) != 2:
                 print("\nSYNTAX WARNING: Two mapping not detected, or input couldn't be read." +
                       "\nExpected format: mapping | mapping with space ok"
@@ -35,21 +40,6 @@ def main():
 
 if __name__ == '__main__':
     main()
-
-
-
-"""
-IndexError
------>> TODO LIST <<-----
-Batch 1)
-Time to implement singleton for initialization logic and factory for the rest?
-
-
-Batch 2) 
-If you pass config around as a pojo, you can just access in each object.
-Thread spin-off of service & checking for instantiated data
-"""
-
 
 """
 print("VALUE LIST: " + str(od.get_values(sys.argv[2].strip())))
