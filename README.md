@@ -7,10 +7,11 @@ Delegated
 # Summary
 This is a technology demonstrator of a Python NoSQL service I wrote.  Goals for project;
 <ul>
+<li>Consider OO design
 <li>Use Python abstraction for interfaces
 <li>Use DAO pattern
-<li>Consider OO design
-<li>Release functional prototype
+<li>Benchmark performance
+<li>Place functional prototype on Github
 </ul>
 <i>Documentation is still being worked on. The first stable demonstrator was wrapped on 5/25/2015, so the documentation in this file is just a start point.</i>
 
@@ -22,7 +23,7 @@ Think of DARMa as a locally hosted memcached service.   It's written in Python, 
 
 Anyone with design feedback please reach out to me and let me hear it through Github or LinkedIn:<br>
         https://www.linkedin.com/in/michaelrais/
-<br>I'd like to get an architect involved.
+<br><i>I'd like to get an architect involved.</i>
 
 # Main Components
 <ul>
@@ -35,6 +36,34 @@ Anyone with design feedback please reach out to me and let me hear it through Gi
 # Requirements
 <ul>
 <li> Tested on Python 3.4.1
+</ul>
+
+# Reference Documents
+<ul>
+<li>Conceptual class diagram:  'reference/DARMa-class-diag_v2.1.jpg'
+<li>Benchmark results:  'reference/20150525_benchmark-results.txt'
+<li>Demo script screenshot:  'reference/demoScriptScreenshot.tiff'
+</ul>
+
+# Benchmark Summary
+<ul>
+<li>A series of 10 tests (on my 2012 MBP) split in two groups indicates ~47,000 gets per second.  This is a bit better than expected, since DARMa does not aim to compete with Memcached or Redis; only to stand as a gateway abstraction.  Regardless, more benchmarking would be useful to see how it scales.
+</ul>
+
+# API method listing:
+<u>Initialization</u>
+<ul>
+<li>get_configuration_info()
+<li>get_range_info()
+<li>initialize_record_array(controlMode, initRule)
+<li>load_configuration_file([fileName])
+</ul>
+<u>Usage</u>
+<ul>
+<li>add_value_map(source, target)
+<li>get_value_map(source, target)
+<li>del_value_map(source, target)
+<li>get_values(source)
 </ul>
 
 # Usage
@@ -51,13 +80,6 @@ Inline Example:     Initialization (run once);
                         dd.set_value_map("mapping A", "mapping B")
                         dd.get_value_map("mapping A", "mapping B")
 </pre>
-
-# Reference Documents
-<ul>
-<li>Conceptual class diagram:  'DARMa Class Diagram-v2.1.jpg'
-<li>Benchmark results:  '20150525_benchmark_results.txt'
-<li>Demo script screenshot:  'demoScriptScreenshot.tiff'
-</ul>
 
 # Configuration Details
 <pre>
