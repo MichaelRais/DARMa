@@ -1,0 +1,6 @@
+{
+    "initRule": "file",
+    "dataMode": "uni",
+    "controlMode": "localhost",
+    "rangeRule": "alphanum"
+}

@@ -1,10 +1,36 @@
-# This is a/the concrete class implementing the interface/abstract class (actually two)
+"""
+Summary:            DARMa concrete DAO (data access object) class
+
+Purpose:            This is a/the concrete class implementing the interface/abstract class (actually two ABC's)
+
+Python Version:     QA'd on Python 3.4.1
+
+Interface Note:     Python doesn't have interfaces the way Java does. 
+                    Python supports multiple inheritence, so interfaces implemented with abstract classes.
+
+Inline Example:     Initialization (run once);
+                        dd = DarmaDao()
+                        show_cfg_dd = dd.get_configuration_info()
+                        init_dd = dd.initialize_record_array()
+                    Application usage (run often);
+                        dd.set_value_map("mapping A", "mapping B")
+                        dd.get_value_map("mapping A", "mapping B")
+
+Usage Note:         Current prototype has one namespace, and requires that mapping values are unique and usable as a primary key. (e.g "'mapping A' | 'mapping B'")
+                    Future design will allow for multiple namespaces. (This will be to enable more use-cases.  For instance: A "poll id|value" mapping where multiple polls start id's from 0 instead of having a unique primary key across all polls.)
+"""
 
 import abc
 from ConfigurationAbstract import ConfigurationAbstract
 from DarmaRecordDaoAbstract import DarmaRecordDaoAbstract
 from Loader import Loader
 from RecordRelay import RecordRelay
+
+__author__ = "Michael Rais"
+__version__ = "0.5-alpha"
+__maintainer__ = "Michael Rais"
+__email__ = "mrais@inbox.com"
+
 
 class DarmaDao(DarmaRecordDaoAbstract, ConfigurationAbstract):
     def __init__(self):

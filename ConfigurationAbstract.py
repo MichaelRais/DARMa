@@ -1,17 +1,45 @@
 """
-PURPOSE: Configuration object
+Summary:            DARMa abstract configuration class
 
-CONFIG FILE: ./config.json
-CONTENTS EXAMPLE:
-    {
-        "initRule": "file",
-        "rangeRule": "alphanum",
-        "controlMode": "localhost",
-        "dataMode": "bid"
-    }
+Purpose:            This abstract base class contains configuration logic
 
-OPTIONS DESCRIPTION:
-...MR will fill in...
+Python Version:     QA'd on Python 3.4.1
+
+Config file:        ./config.json
+Contents Example:
+                    {
+                        "initRule": "file",
+                        "rangeRule": "alphanum",
+                        "controlMode": "localhost",
+                        "dataMode": "bid"
+                    }
+
+Options Description:
+    Init Rule:      This rule indicates where data is loaded from on initialization.
+                    Currently the only accepted value for the demonstrator is "file".
+                        file = load data from pipe-delimited text file.
+                    Future values will be:  file, cold, dbase
+                        file = file, cold = without data load, dbase = database, api = api
+
+    Range Rule:     This rule indicates how the data model is sub-divided.
+                    Currently the only accepted value for the demonstrator is "alphanum".
+                        This divides the data model into 36 objects, by both;
+                            alphabet = 26 groups  (for grouping by alpha)
+                            first number = 10 groups  (for unordered primary keys)
+                    Future values will be: range
+                            range = sub-division by primary key ranges
+
+    Control Mode:   This mode indicates where the controlling NoSQL abstraction layer is running.
+                    Currently the only accepted value for the demonstrator is "localhost" or "interface".
+                        localhost = The DARMa service runs locally and data managed locally after start-up
+                        interface = special local benchmarking mode
+                    Future values will be: cluster
+                        cluster = A remote service is being used to manage data after start-up.  Could be anything that gets plugged in.
+
+    Data Mode:      This mode indicates if key/value sets/gets are unidirectional or bi-directional.
+                    Currently this setting is fully functional.
+                        uni = Sets and gets are one-way.  (e.g. loading a map of "Ian Frei | Joe Yup" only matches "Ian Frei | Joe Yup", but not "Joe Yup | Ian Frei")
+                        bid = Sets and gets are two-way.  (e.g. loading a map of "Ian|Joe" matches either "Ian|Joe" or "Joe|Ian")
 
 """
 
@@ -19,11 +47,14 @@ import abc
 import json
 
 __author__ = "Michael Rais"
+__version__ = "0.5-alpha"
+__maintainer__ = "Michael Rais"
+__email__ = "mrais@inbox.com"
 
 
 class ConfigurationAbstract(metaclass=abc.ABCMeta):
-   #__metaclass__ = abc.ABCMeta
-    
+    # __metaclass__ = abc.ABCMeta
+
     def __init__(self):
         """Constructor."""
         # Generic defaults listed.   These settings are overridden if config file read contains override for setting.
@@ -67,14 +98,14 @@ class ConfigurationAbstract(metaclass=abc.ABCMeta):
             print(
                 "\nERROR: File config.json didn't have readable contents.   JSON format expected.   Halting. \n")
             raise
-        except:  # catch any remaining/unexpected exceptions
+        except:  # Catch any remaining/unexpected exceptions
             print(
                 "\nERROR: File config.json couldn't be read due to unknown reason.   Halting. \n")
             raise
         if configUsableFlag:
             # Assign captured config settings.   Any that aren't specified use the defaults.
             for key, value in self.configJson.items():
-                #print(" " + key + ": " + value)
+                # print(" " + key + ": " + value)
                 if key == 'initRule':
                     self.initRule = value
                 elif key == 'rangeRule':

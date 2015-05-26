@@ -1,0 +1,11 @@
+Mike Mallone|Jay Hawks
+"John Doe"|'Lady Jane's'
+Bob Brown|Sam Smith
+Bob Brown|Joe Shepard
+JOE SHEPARD|Bob Brown
+Ian|Jim
+Jim|Mark
+Bob Brown|Baron Python
+Dr. Seuss|Dr. Oz
+Cole Sterling, 3rd|Pound Sterling
+Jim 'Savvy' Bob|Lord 'Joe' Marshall

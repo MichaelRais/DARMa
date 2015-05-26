@@ -1,6 +1,20 @@
-# In Java-land this would be the interface.  As this is Python, it's an abstract class since Python support multiple inheritence.
+"""
+Summary:            DARMa abstract DAO (data access object) class
+
+Purpose:            This abstract base class contains DAO logic
+
+Python Version:     QA'd on Python 3.4.1
+
+Note:               In Java-land this would be the interface.  
+                    As this is Python, it's an abstract class since Python support multiple inheritence.
+"""
 
 import abc
+
+__author__ = "Michael Rais"
+__version__ = "0.5-alpha"
+__maintainer__ = "Michael Rais"
+__email__ = "mrais@inbox.com"
 
 
 class DarmaRecordDaoAbstract(metaclass=abc.ABCMeta):

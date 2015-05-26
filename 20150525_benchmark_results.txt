@@ -1,0 +1,54 @@
+BENCHMARK TEST:  DARMa v0.5-alpha
+
+__author__ = "Michael Rais"
+__version__ = "0.5-alpha"
+__maintainer__ = "Michael Rais"
+__email__ = "mrais@inbox.com"
+
+
+>SETUP
+import timeit
+
+
+>SIMPLE BENCHMARK
+timeit.timeit("dd.get_value_map('Dr. Seuss'.strip(),'Dr. Oz'.strip())", setup="import sys; from DarmaDao import DarmaDao; dd=DarmaDao(); init_dd = dd.initialize_record_array()",  number = 100000)
+ 2.1706502800007
+ 2.17847020499903
+ 2.1772433160003857
+ 2.220505461000357
+ 2.23909097700016
+
+ RESULTS:  Indicates ~47,000 selects per second, which seems optimistic/narrow.
+
+
+>COMPOSITE BENCHMARK
+timeit.timeit("dd.get_value_map('Dr. Seuss'.strip(),'Dr. Oz'.strip()); dd.get_value_map('Dr. Oz'.strip(),'Dr. Seuss'.strip())", setup="import sys; from DarmaDao import DarmaDao; dd=DarmaDao(); init_dd = dd.initialize_record_array()",  number = 100000)
+ 4.387627378999241
+ 4.3880577470008575
+ 4.374187834000622
+ 4.3677829749995
+ 4.400494724999589
+
+ RESULTS:  Indicates ~47,000 selects per second, accounting for two get executions.  
+
+
+>OBSERVATION
+Both tests indicate ~47,000 selects per second.  This is a bit better than expected, since DARMa does not aim to compete with Memcached or Redis; only to stand as a gateway abstraction for the 99% who don't need dedicated NoSQL services to start with.
+
+
+>TEST CONDITIONS:  
+*) Benchmarking run on my 2012 MBP without any services offline
+*) Benchmark ran against 10 records in DARMa's internally delegated data models.   
+   Next test should be against 1,000,000 records.
+*) The simple benchmark simulated "uni" (unidirectional) run mode for DARMa
+*) The composite benchmark simulated "bid" (bidirectional) run mode for DARMa
+*) Custom DARMa config.json contents (controlMode = interface) for test run;
+{
+    "initRule": "file",
+    "dataMode": "uni",
+    "controlMode": "interface",
+    "rangeRule": "alphanum"
+}
+
+
+

@@ -1,11 +1,37 @@
-# This is the Loader class used DarmaDao
-# Options based on controlMode and initRule
-# DEMONSTRATOR IMPLEMENTATION:  Currently only localhost/file supported
+"""
+Summary:            This is the Loader class used by DarmaDao interface
+
+Purpose:            This class handles initialization data load based on configuration values
+
+Python Version:     QA'd on Python 3.4.1
+
+Note:               Options based on controlMode and initRule
+                        Demonstrator:  Currently only localhost/file supported
+
+File Format:        The file format is a text file with pipe delimited mapping pairs.  
+                    Outer spaces stripped - Outer quotes are ignored - Inner quotes/apostrophes preserved.
+                    (Exporting two columns from Excel with a pipe delimiter is one way to build your own file.)
+                    Examples;
+                        Ian|Jim
+                        JOE SHEPARD|Bob Brown
+                        Jim|Mark
+                        "John Doe"|'Lady Jane's'
+                        Bob Brown|Baron Python
+                        Dr. Seuss|Dr. Oz
+                        Cole Sterling, 3rd|Winston Sterling
+
+"""
 
 import sys
 import re
 import traceback
 #from DarmaDao import DarmaDao # QUESTION: To avoid briefly using excess memory in production, I could call add_value_map from here, instead of passing back file contents.  Convention?
+
+__author__ = "Michael Rais"
+__version__ = "0.5-alpha"
+__maintainer__ = "Michael Rais"
+__email__ = "mrais@inbox.com"
+
 
 class Loader():
     def __init__(self):

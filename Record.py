@@ -1,4 +1,16 @@
-# Data structure object
+"""
+Summary:            Data structure class
+
+Purpose:            This class is the data model.  There is one instance per range item.
+
+Python Version:     QA'd on Python 3.4.1
+"""
+
+__author__ = "Michael Rais"
+__version__ = "0.5-alpha"
+__maintainer__ = "Michael Rais"
+__email__ = "mrais@inbox.com"
+
 
 class Record():
     def __init__(self):

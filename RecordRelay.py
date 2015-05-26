@@ -1,12 +1,24 @@
-# Data structure relay object
+"""
+Summary:            Data structure relay class
+
+Purpose:            This class handles management of data model sub-division and relaying sets/gets.
+
+Python Version:     QA'd on Python 3.4.1
+"""
 
 from Record import Record
+
+__author__ = "Michael Rais"
+__version__ = "0.5-alpha"
+__maintainer__ = "Michael Rais"
+__email__ = "mrais@inbox.com"
+
 
 class RecordRelay(object):
 
     def __init__(self, dataModeValue):
         """Constructor."""
-        # For demonstrator these are class variables.  Possibly change to one instance per group.
+        # For demonstrator these are class variables.
         self.groupMap = '0,1,2,3,4,5,6,7,8,9,A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z'.split(sep=",")
         self.groupMap = dict(zip(range(len(self.groupMap)), self.groupMap))
         self.groupObjs = [] # Object container
