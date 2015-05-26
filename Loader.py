@@ -37,7 +37,7 @@ class Loader():
     def __init__(self):
         pass
  
-    def load_records(self, controlModeValue, initRuleValue):
+    def load_records(self, controlModeValue, initRuleValue, loadFrom=None):
         returnData = []
         if initRuleValue == "mysql":
             pass
@@ -48,7 +48,7 @@ class Loader():
         elif initRuleValue == "redis":
             pass
         elif initRuleValue == "file":
-            returnData = self.load_from_file(controlModeValue)
+            returnData = self.load_from_file(controlModeValue, loadFrom)
         return returnData
 
     def load_from_mysql(self, controlModeValue):
@@ -63,33 +63,31 @@ class Loader():
         pass
         # Implementation TBD as REDIS usage has a large superset of functionality and implies different user / Not sure Redis use-case likely
 
-    def load_from_file(self, controlModeValue):
+    def load_from_file(self, controlModeValue, loadFrom=None):
         returnData = []
+        if loadFrom is None:
+            mappingFile = 'mappings.txt' # Default catch-all
+        else:
+            mappingFile = loadFrom
+
         if controlModeValue == "remote":
             # Logic for remote file load TBD
             pass
-        elif controlModeValue == "interface":
-            # This is a benchmarking mode so file hardcoded
-            mappingFile = 'mappings.txt'
-            with open(mappingFile, 'r') as fileArray:
-                for line in fileArray:
-                    line = [x for x in line.replace('\n', '').split(sep="|")]
-                    for n in range(0, len(line)):
-                        line[n] = line[n].strip()
-                        line[n] = re.sub(r'^"|"$|^\'|\'$', '', line[n]) # Remove leading/trailing quotes only (allow O'Reilly, etc. of the world)
-                    returnData.append(line)
-        elif controlModeValue == "localhost":
-            # This is a run mode so file delivered in argument
-            if len(sys.argv) != 2:
-                # Security considerations for argument capture affect demonstrator only, so not real-world.
-                print("Script usage is: " +
-                    sys.argv[0] + " 'filename'\n" +
-                    " After that, only provide map pairs: 'any mapping | any mapping'  \n"
-                )
-                exit(1)
+        elif controlModeValue == "localhost" or controlModeValue == "interactive":
+            if controlModeValue == "interactive":
+                # For interactive run mode file delivered in argument. 
+                if len(sys.argv) != 2:
+                    # Security considerations for argument capture affect demonstrator only, so not real-world.
+                    print("Script usage is: " +
+                        sys.argv[0] + " 'filename'\n" +
+                        " After that, only provide map pairs: 'any mapping | any mapping'  \n"
+                    )
+                    exit(1)
+                mappingFile = sys.argv[1]
 
             try:
-                with open(sys.argv[1], 'r') as fileArray:
+                # Regardless of mode, open file and load data
+                with open(mappingFile, 'r') as fileArray:
                     for line in fileArray:
                         line = [x for x in line.replace('\n', '').split(sep="|")]
                         for n in range(0, len(line)):

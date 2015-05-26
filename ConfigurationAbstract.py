@@ -6,7 +6,7 @@ Purpose:            This abstract base class contains configuration logic
 Python Version:     QA'd on Python 3.4.1
 
 Config file:        ./config.json
-Contents Example:
+Contents Example:   Note that without config.json defaults are used, and controlMode is "interactive"
                     {
                         "initRule": "file",
                         "rangeRule": "alphanum",
@@ -16,23 +16,23 @@ Contents Example:
 
 Options Description:
     Init Rule:      This rule indicates where data is loaded from on initialization.
-                    Currently the only accepted value for the demonstrator is "file".
+                    Currently the only accepted value for the demonstrator is: file
                         file = load data from pipe-delimited text file.
                     Future values will be:  file, cold, dbase
                         file = file, cold = without data load, dbase = database, api = api
 
     Range Rule:     This rule indicates how the data model is sub-divided.
-                    Currently the only accepted value for the demonstrator is "alphanum".
-                        This divides the data model into 36 objects, by both;
+                    Currently the only accepted value for the demonstrator is: alphanum
+                        alphanum = Divides the data model into 36 objects, by both;
                             alphabet = 26 groups  (for grouping by alpha)
                             first number = 10 groups  (for unordered primary keys)
                     Future values will be: range
                             range = sub-division by primary key ranges
 
     Control Mode:   This mode indicates where the controlling NoSQL abstraction layer is running.
-                    Currently the only accepted value for the demonstrator is "localhost" or "interface".
+                    Currently the only accepted value for the demonstrator is: "localhost" or "interactive".
                         localhost = The DARMa service runs locally and data managed locally after start-up
-                        interface = special local benchmarking mode
+                        interactive = Demo mode and default.  Not for production.  The DARMa service runs locally in interactive demo mode.
                     Future values will be: cluster
                         cluster = A remote service is being used to manage data after start-up.  Could be anything that gets plugged in.
 
@@ -62,7 +62,7 @@ class ConfigurationAbstract(metaclass=abc.ABCMeta):
         self.initRule = 'file'
         self.rangeRule = 'alphanum'
         self.dataMode = 'bid'
-        self.controlMode = 'localhost'
+        self.controlMode = 'interactive'
         self.configJson = ''
         # Load of configuration.
         self.load_configuration_file()

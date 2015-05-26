@@ -46,7 +46,7 @@ Both tests indicate ~47,000 selects per second.  This is a bit better than expec
 {
     "initRule": "file",
     "dataMode": "uni",
-    "controlMode": "interface",
+    "controlMode": "localhost",
     "rangeRule": "alphanum"
 }
 

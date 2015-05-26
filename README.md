@@ -7,7 +7,7 @@ Delegated
 # Summary
 This is a technology demonstrator of a Python NoSQL service I wrote.  Goals for project;
 <ul>
-<li>Consider OO design
+<li>OO design
 <li>Use Python abstraction for interfaces
 <li>Use DAO pattern
 <li>Benchmark performance
@@ -40,7 +40,7 @@ Anyone with design feedback please reach out to me and let me hear it through Gi
 
 # Reference Documents
 <ul>
-<li>Conceptual class diagram:  'reference/DARMa-class-diag_v2.1.jpg'
+<li>Conceptual class diagram:  'reference/DARMa-class-diag_v2.2.jpg'
 <li>Benchmark results:  'reference/20150525_benchmark-results.txt'
 <li>Demo script screenshot:  'reference/demoScriptScreenshot.tiff'
 </ul>
@@ -50,13 +50,13 @@ Anyone with design feedback please reach out to me and let me hear it through Gi
 <li>A series of 10 tests (on my 2012 MBP) split in two groups indicates ~47,000 gets per second.  This is a bit better than expected, since DARMa does not aim to compete with Memcached or Redis; only to stand as a gateway abstraction.  Regardless, more benchmarking would be useful to see how it scales.
 </ul>
 
-# API method listing:
+# API methods:
 <u>Initialization</u>
 <ul>
+<li>load_configuration_file()
 <li>get_configuration_info()
 <li>get_range_info()
-<li>initialize_record_array(controlMode, initRule)
-<li>load_configuration_file([fileName])
+<li>initialize_record_array([loadfrom=$filename])
 </ul>
 <u>Usage</u>
 <ul>
@@ -97,7 +97,7 @@ Contents Example:   The file format is a text file with pipe delimited mapping p
                         Cole Sterling, 3rd|Winston Sterling
 
 Config file:        ./config.json
-Contents Example:
+Contents Example:   Note that without config.json defaults are used, and controlMode is "interactive"
                     {
                         "initRule": "file",
                         "rangeRule": "alphanum",
@@ -107,23 +107,23 @@ Contents Example:
 
 Options Description:
     Init Rule:      This rule indicates where data is loaded from on initialization.
-                    Currently the only accepted value for the demonstrator is "file".
+                    Currently the only accepted value for the demonstrator is: file
                         file = load data from pipe-delimited text file.
                     Future values will be:  file, cold, dbase
                         file = file, cold = without data load, dbase = database, api = api
 
     Range Rule:     This rule indicates how the data model is sub-divided.
-                    Currently the only accepted value for the demonstrator is "alphanum".
-                        This divides the data model into 36 objects, by both;
+                    Currently the only accepted value for the demonstrator is: alphanum
+                        alphanum = Divides the data model into 36 objects, by both;
                             alphabet = 26 groups  (for grouping by alpha)
                             first number = 10 groups  (for unordered primary keys)
                     Future values will be: range
                             range = sub-division by primary key ranges
 
     Control Mode:   This mode indicates where the controlling NoSQL abstraction layer is running.
-                    Currently the only accepted value for the demonstrator is "localhost" or "interface".
+                    Currently the only accepted value for the demonstrator is: "localhost" or "interactive".
                         localhost = The DARMa service runs locally and data managed locally after start-up
-                        interface = special local benchmarking mode
+                        interactive = Demo mode and default.  Not for production.  The DARMa service runs locally in interactive demo mode.
                     Future values will be: cluster
                         cluster = A remote service is being used to manage data after start-up.  Could be anything that gets plugged in.
 
@@ -131,6 +131,7 @@ Options Description:
                     Currently this setting is fully functional.
                         uni = Sets and gets are one-way.  (e.g. loading a map of "Ian Frei | Joe Yup" only matches "Ian Frei | Joe Yup", but not "Joe Yup | Ian Frei")
                         bid = Sets and gets are two-way.  (e.g. loading a map of "Ian|Joe" matches either "Ian|Joe" or "Joe|Ian")
+
 </pre>
 
 # Release History: 

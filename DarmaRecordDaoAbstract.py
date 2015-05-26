@@ -22,9 +22,10 @@ class DarmaRecordDaoAbstract(metaclass=abc.ABCMeta):
         pass
 
     @abc.abstractmethod
-    def initialize_record_array(self, controlMode, initRule):
-        print("PASS: " + controlMode + " | " + initRule)
-        """The controlMode/initRule defaults should come in this way, so these defaults are possibly over-conservative"""
+    def initialize_record_array(self, loadFrom=None):
+        """Method to initialize record array from a source datastore configured in "config.json".  
+           The optional loadFrom parameter handles generic info for real-time user options to controlMode
+           The use-case allows loading from a different file or repeating command for multiple files."""
         return
 
     @abc.abstractmethod

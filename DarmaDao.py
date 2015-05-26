@@ -11,7 +11,7 @@ Interface Note:     Python doesn't have interfaces the way Java does.
 Inline Example:     Initialization (run once);
                         dd = DarmaDao()
                         show_cfg_dd = dd.get_configuration_info()
-                        init_dd = dd.initialize_record_array()
+                        init_dd = dd.initialize_record_array(loadFrom="$filename")
                     Application usage (run often);
                         dd.set_value_map("mapping A", "mapping B")
                         dd.get_value_map("mapping A", "mapping B")
@@ -43,8 +43,8 @@ class DarmaDao(DarmaRecordDaoAbstract, ConfigurationAbstract):
         self.controlModeValue = ConfigurationAbstract.get_configuration_value(self, self.configJson, 'controlMode')
         self.initRuleValue = ConfigurationAbstract.get_configuration_value(self, self.configJson, 'initRule')
         self.dataModeValue = ConfigurationAbstract.get_configuration_value(self, self.configJson, 'dataMode')
-        """def load_configuration_file(self):
-        #TBD if this is implemented here.  Consistent with interface, but not required.
+        """
+        TBD if this is implemented here.  Consistent with interface, but not required.
         return ConfigurationAbstract.load_configuration_file(self)
         """
         # Instantiation
@@ -63,10 +63,10 @@ class DarmaDao(DarmaRecordDaoAbstract, ConfigurationAbstract):
     def load_configuration_file(self):
         return ConfigurationAbstract.load_configuration_file(self)
 
-    def initialize_record_array(self):
-        # Gets Configuration information and loads array accordingly
+    def initialize_record_array(self, loadFrom=None):
+        # Gets Configuration information and loads array accordingly. The argument 'loadFrom' is optional, and can contain filename.
         ddLoader = Loader()
-        ddLoaderData = ddLoader.load_records(self.controlModeValue, self.initRuleValue)
+        ddLoaderData = ddLoader.load_records(self.controlModeValue, self.initRuleValue, loadFrom)
         for source,target in ddLoaderData:
             self.add_value_map(source,target)
         return True

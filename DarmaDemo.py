@@ -20,7 +20,7 @@ Demo Script Usage:  python DarmaDemo.py <filename>
 Inline Example:     Initialization (run once);
                         dd = DarmaDao()
                         show_cfg_dd = dd.get_configuration_info()
-                        init_dd = dd.initialize_record_array()
+                        init_dd = dd.initialize_record_array([loadfrom=$filename])
                     Application usage (run often);
                         dd.set_value_map("mapping A", "mapping B")
                         dd.get_value_map("mapping A", "mapping B")
