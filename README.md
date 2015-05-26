@@ -12,7 +12,7 @@ This is a technology demonstrator of a Python NoSQL service I wrote.  Goals for 
 <li>Consider OO design
 <li>Release functional prototype
 </ul>
-<i>Documentation is still being worked on. The first stable demonstrator was wrapped on 5/25, so the documentation in this file is just a start point.</i>
+<i>Documentation is still being worked on. The first stable demonstrator was wrapped on 5/25/2015, so the documentation in this file is just a start point.</i>
 
 # Overview
 Think of DARMa as a locally hosted memcached service.   It's written in Python, and it just takes some of complexity out of managing Python data structures.   The use-case is for the 99% of websites that don't need Redis or Memcached, where the web developer may feel NoSQL is warranted.   It provides an abstraction layer that allows for both NoSQL via DARMa and future usage of Redis or Memcached.
@@ -38,6 +38,7 @@ I'd like to get an architect involved.
 </ul>
 
 # Usage
+<pre>
 Demo Script Usage:  python DarmaDemo.py <filename>
                         The <filename> contains pipe delimited mapping pairs to be loaded on start-up.
                         The example file is:  "mappings.txt"
@@ -49,6 +50,7 @@ Inline Example:     Initialization (run once);
                     Application usage (run often);
                         dd.set_value_map("mapping A", "mapping B")
                         dd.get_value_map("mapping A", "mapping B")
+</pre>
 
 # Reference Documents
 <ul>
@@ -57,6 +59,7 @@ Inline Example:     Initialization (run once);
 </ul>
 
 # Configuration Details
+<pre>
 Config file:        ./config.json
 Contents Example:
                     {
@@ -105,7 +108,7 @@ Options Description:
                     Currently this setting is fully functional.
                         uni = Sets and gets are one-way.  (e.g. loading a map of "Ian Frei | Joe Yup" only matches "Ian Frei | Joe Yup", but not "Joe Yup | Ian Frei")
                         bid = Sets and gets are two-way.  (e.g. loading a map of "Ian|Joe" matches either "Ian|Joe" or "Joe|Ian")
-
+</pre>
 
 # Release History: 
    -20150525(M. Rais):  v0.5.0 - First stable demonstrator. Cleaned up files/headers. Updated class diagram.  SIF5 becoming v0.5.0-alpha.  
