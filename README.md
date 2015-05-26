@@ -54,8 +54,9 @@ Inline Example:     Initialization (run once);
 
 # Reference Documents
 <ul>
-<li>Class Diagram:  DARMa Class Diagram-v2.1.jpg
-<li>Benchmark Results:  20150525_benchmark_results.txt
+<li>Conceptual class diagram:  'DARMa Class Diagram-v2.1.jpg'
+<li>Benchmark results:  '20150525_benchmark_results.txt'
+<li>Demo script screenshot:  'demoScriptScreenshot.tiff'
 </ul>
 
 # Configuration Details
