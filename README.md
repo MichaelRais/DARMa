@@ -22,7 +22,7 @@ Think of DARMa as a locally hosted memcached service.   It's written in Python, 
 
 Anyone with design feedback please reach out to me and let me hear it through Github or LinkedIn:<br>
         https://www.linkedin.com/in/michaelrais/
-I'd like to get an architect involved.
+<br>I'd like to get an architect involved.
 
 # Main Components
 <ul>
@@ -39,8 +39,8 @@ I'd like to get an architect involved.
 
 # Usage
 <pre>
-Demo Script Usage:  python DarmaDemo.py <filename>
-                        The <filename> contains pipe delimited mapping pairs to be loaded on start-up.
+Demo Script Usage:  python DarmaDemo.py $filename.txt
+                        The $filename.txt contains pipe delimited mapping pairs to be loaded on start-up.
                         The example file is:  "mappings.txt"
 
 Inline Example:     Initialization (run once);
@@ -60,15 +60,6 @@ Inline Example:     Initialization (run once);
 
 # Configuration Details
 <pre>
-Config file:        ./config.json
-Contents Example:
-                    {
-                        "initRule": "file",
-                        "rangeRule": "alphanum",
-                        "controlMode": "localhost",
-                        "dataMode": "bid"
-                    }
-
 Init file:          ./mappings.txt
 Contents Example:   The file format is a text file with pipe delimited mapping pairs.  
                     Outer spaces stripped - Outer quotes are ignored - Inner quotes/apostrophes preserved.
@@ -81,6 +72,15 @@ Contents Example:   The file format is a text file with pipe delimited mapping p
                         Bob Brown|Baron Python
                         Dr. Seuss|Dr. Oz
                         Cole Sterling, 3rd|Winston Sterling
+
+Config file:        ./config.json
+Contents Example:
+                    {
+                        "initRule": "file",
+                        "rangeRule": "alphanum",
+                        "controlMode": "localhost",
+                        "dataMode": "bid"
+                    }
 
 Options Description:
     Init Rule:      This rule indicates where data is loaded from on initialization.
