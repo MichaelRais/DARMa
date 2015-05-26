@@ -12,7 +12,7 @@ This is a technology demonstrator of a Python NoSQL service I wrote.  Goals for 
 <li>Consider OO design
 <li>Release functional prototype
 </ul>
-<i>Documentation is still being worked on. The first stable demonstrator was wrapped on 5/25, so the documentation in this file is just a start point.
+<i>Documentation is still being worked on. The first stable demonstrator was wrapped on 5/25, so the documentation in this file is just a start point.</i>
 
 # Overview
 Think of DARMa as a locally hosted memcached service.   It's written in Python, and it just takes some of complexity out of managing Python data structures.   The use-case is for the 99% of websites that don't need Redis or Memcached, where the web developer may feel NoSQL is warranted.   It provides an abstraction layer that allows for both NoSQL via DARMa and future usage of Redis or Memcached.
