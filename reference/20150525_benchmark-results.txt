@@ -7,7 +7,8 @@ __email__ = "mrais@inbox.com"
 
 
 >SETUP
-import timeit
+file: mapping.txt, which contains 10 paired name records.
+cmd:  import timeit
 
 
 >SIMPLE BENCHMARK
@@ -29,17 +30,18 @@ timeit.timeit("dd.get_value_map('Dr. Seuss'.strip(),'Dr. Oz'.strip()); dd.get_va
  4.3677829749995
  4.400494724999589
 
- RESULTS:  Indicates ~47,000 selects per second, accounting for two get executions.  
+ RESULTS:  Indicates ~45,000 selects per second, accounting for two get executions.  
 
 
 >OBSERVATION
-Both tests indicate ~47,000 selects per second.  This is a bit better than expected, since DARMa does not aim to compete with Memcached or Redis; only to stand as a gateway abstraction for the 99% who don't need dedicated NoSQL services to start with.
+Tests with simple/small datasets indicate 45,000 selects per second.  This is a bit better than expected, since DARMa does not aim to compete with Memcached or Redis; only to stand as a gateway abstraction for the 99% who don't need dedicated NoSQL services to start with.
 
 
 >TEST CONDITIONS:  
 *) Benchmarking run on my 2012 MBP without any services offline
 *) Benchmark ran against 10 records in DARMa's internally delegated data models.   
-   Next test should be against 1,000,000 records.
+   A follow-up test against 1,000,000 records had the same performance!  
+   See '20150526_benchmark-results.txt'
 *) The simple benchmark simulated "uni" (unidirectional) run mode for DARMa
 *) The composite benchmark simulated "bid" (bidirectional) run mode for DARMa
 *) Custom DARMa config.json contents (controlMode = interface) for test run;

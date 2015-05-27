@@ -1,0 +1,53 @@
+BENCHMARK TEST:  DARMa v0.6-beta
+
+__author__ = "Michael Rais"
+__version__ = "0.6-beta
+__maintainer__ = "Michael Rais"
+__email__ = "mrais@inbox.com"
+
+
+>SETUP
+file: mappingUUID.txt, which contains 1,000,000 paired unique UUID records.
+cmd:  import timeit
+
+
+>SIMPLE BENCHMARK
+timeit.timeit("dd.get_value_map('Dr. Seuss'.strip(),'Dr. Oz'.strip())", setup="import sys; from DarmaDao import DarmaDao; dd=DarmaDao(); init_dd = dd.initialize_record_array('mappingUUID.txt')", number = 100000)
+ 2.1293139709996467
+ 2.106760997998208
+ 2.075214747001155
+ 2.107974026002921
+ 2.1483544100010477
+ RESULTS:  Indicates ~47,000 selects per second, accounting for one get execution which misses.
+
+
+>COMPOSITE BENCHMARK
+timeit.timeit("dd.get_value_map('Dr. Seuss'.strip(),'Dr. Oz'.strip()); dd.get_value_map('fefec3d4-46c4-436f-9cae-6798b4514ed5'.strip(),'f714cca3-f3fb-4274-9fe2-172b130ca20f'.strip())", setup="import sys; from DarmaDao import DarmaDao; dd=DarmaDao(); init_dd = dd.initialize_record_array('mappingUUID.txt')",  number = 100000)
+ 4.321957318003115
+ 4.550931523001054
+ 4.405784883998422
+ 4.376955550000275
+ 4.409701374999713
+ RESULTS:  Indicates ~45,000 selects per second, accounting for two get executions; one miss and one hit.  
+
+
+>OBSERVATION
+Test with 70mb data consisting of 1m records indicates conservative 45,000 selects per second.  The test case was narrow, without change of repeating select.  For this test case, the result remains better than expected, since DARMa does not aim to compete with Memcached or Redis; only to stand as a gateway abstraction for the 99% who don't need dedicated NoSQL services to start with.
+
+
+>TEST CONDITIONS:  
+*) Benchmarking run on my 2012 MBP without any services offline
+*) Benchmark ran against 1,000,000 records making non-optimal use of DARMa's delegated data models.
+   For prior benchmark see '20150526_benchmark-results.txt'
+*) The simple benchmark simulated "uni" (unidirectional) run mode for DARMa
+*) The composite benchmark simulated "bid" (bidirectional) run mode for DARMa
+*) Custom DARMa config.json contents (controlMode = interface) for test run;
+{
+    "initRule": "file",
+    "dataMode": "uni",
+    "controlMode": "localhost",
+    "rangeRule": "alphanum"
+}
+
+
+
