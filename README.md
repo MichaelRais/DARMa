@@ -48,7 +48,7 @@ Anyone with design feedback please reach out to me and let me hear it through Gi
 
 # Benchmark Summary
 <ul>
-<li>A series of 20 tests (on my 2012 MBP) split in two groups indicates 45,000 gets per second on recordsets from 10 to 1,000,000 records.  Results come from a narrow QA case, but are better than expected as DARMa does not aim to compete with Memcached or Redis; only to stand as a gateway abstraction.  Also noted 5x data footprint expansion from filesize to RAM - something to come back to.
+<li>A series of 20 tests (on my 2012 MBP) split in two groups indicates 45,000 gets per second on recordsets from 10 to 1,000,000 records.  Results come from a narrow QA case, but are better than expected as DARMa does not aim to compete with Memcached or Redis; only to stand as a gateway abstraction.  Also noted 5x data footprint expansion from filesize to RAM when only 3x implied by use - something to come back to.
 </ul>
 
 # API methods:
@@ -136,5 +136,5 @@ Options Description:
 </pre>
 
 # Release History: 
-   -20150526(M. Rais):  v0.6.0 - Stable development beta demonstrator.  As-is, needs more QA, unit tests, and documentation.  Further updates if project continues.
+   -20150526(M. Rais):  v0.6.0 - Stable development beta demonstrator.  As-is, needs more QA, unit tests, and documentation.  Further updates if project continues.<br>
    -20150525(M. Rais):  v0.5.0 - First stable alpha demonstrator. Cleaned up files/headers. Updated class diagram.  SIF5 becoming v0.5.0-alpha.  

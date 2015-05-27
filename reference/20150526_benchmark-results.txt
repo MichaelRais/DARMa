@@ -32,7 +32,7 @@ timeit.timeit("dd.get_value_map('Dr. Seuss'.strip(),'Dr. Oz'.strip()); dd.get_va
 
 
 >OBSERVATION
-Test with 70mb data consisting of 1m records indicates conservative 45,000 selects per second.  The test case was narrow, without change of repeating select.  For this test case, the result remains better than expected, since DARMa does not aim to compete with Memcached or Redis; only to stand as a gateway abstraction for the 99% who don't need dedicated NoSQL services to start with.
+Test with 70mb data consisting of 1m records indicates conservative 45,000 selects per second.  The test case was narrow, without change of repeating select.  For this test case, the result remains better than expected, since DARMa does not aim to compete with Memcached or Redis; only to stand as a gateway abstraction for the 99% who don't need dedicated NoSQL services to start with.  Also noted 5x data footprint expansion from filesize to RAM - something to come back to.
 
 
 >TEST CONDITIONS:  
