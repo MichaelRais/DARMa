@@ -48,7 +48,7 @@ Anyone with design feedback please reach out to me and let me hear it through Gi
 
 # Benchmark Summary
 <ul>
-<li>A series of 20 tests (on my 2012 MBP) split in two groups indicates 45,000 gets per second on recordsets from 10 to 1,000,000 records.  Results come from a narrow QA case, but are better than expected as DARMa does not aim to compete with Memcached or Redis; only to stand as a gateway abstraction.  Also noted 5x data footprint expansion from filesize to RAM when only 3x implied by use - something to come back to.
+<li>A series of 20 tests (on my 2012 MBP) split in two groups indicates 45,000 gets per second on recordsets from 10 to 1,000,000 records.  Results come from a narrow QA case, but are better than expected as DARMa does not aim to compete with Memcached or Redis; only to stand as a gateway abstraction.  Also noted 5x data footprint expansion from filesize to RAM when only 3x implied by use in bi-directional mode - something to come back to.
 </ul>
 
 # API methods:
