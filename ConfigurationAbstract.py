@@ -8,13 +8,25 @@ Python Version:     QA'd on Python 3.4.1
 Config file:        ./config.json
 Contents Example:   Note that without config.json defaults are used, and controlMode is "interactive"
                     {
+                        "controlMode": "interactive",
+                        "dataMode": "uni",
                         "initRule": "file",
                         "rangeRule": "alphanum",
-                        "controlMode": "localhost",
-                        "dataMode": "bid"
+                        "syncRule": "file",
+                        "syncSchedule": "1"
                     }
 
 Options Description:
+    Control Mode:   This mode indicates where the controlling NoSQL abstraction layer is running.
+                    Currently the only accepted value for the demonstrator is: "production" or "interactive".
+                        production = The DARMa service runs in production mode per settings.
+                        interactive = Demo mode and default.  Not for production.  The DARMa service runs locally in interactive demo mode.
+
+    Data Mode:      This mode indicates if key/value sets/gets are unidirectional or bi-directional.
+                    Currently this setting is fully functional.
+                        uni = Sets and gets are one-way.  (e.g. loading a map of "Ian Frei | Joe Yup" only matches "Ian Frei | Joe Yup", but not "Joe Yup | Ian Frei")
+                        bid = Sets and gets are two-way.  (e.g. loading a map of "Ian|Joe" matches either "Ian|Joe" or "Joe|Ian")
+
     Init Rule:      This rule indicates where data is loaded from on initialization.
                     Currently the only accepted value for the demonstrator is: file
                         file = load data from pipe-delimited text file.
@@ -24,30 +36,25 @@ Options Description:
     Range Rule:     This rule indicates how the data model is sub-divided.
                     Currently the only accepted value for the demonstrator is: alphanum
                         alphanum = Divides the data model into 36 objects, by both;
-                            alphabet = 26 groups  (for grouping by alpha)
-                            first number = 10 groups  (for unordered primary keys)
+                        alphabet = 26 groups  (for grouping by alpha)
+                        first number = 10 groups  (for unordered primary keys)
                     Future values will be: range
-                            range = sub-division by primary key ranges
+                        range = sub-division by primary key ranges
 
-    Control Mode:   This mode indicates where the controlling NoSQL abstraction layer is running.
-                    Currently the only accepted value for the demonstrator is: "localhost" or "interactive".
-                        localhost = The DARMa service runs locally and data managed locally after start-up
-                        interactive = Demo mode and default.  Not for production.  The DARMa service runs locally in interactive demo mode.
-                    Future values will be: cluster
-                        cluster = A remote service is being used to manage data after start-up.  Could be anything that gets plugged in.
+    Sync Rule:      This rule indicates where data is synchronized during runtime, after initialization.
+                    Currently the only accepted value for the demonstrator is: file
+                        file = Picked (TBD) data delivered to holding directory on schedule set by "syncSchedule"
+                    Future values will be:  Same as "Init Rule" future values.   However, they don't require being set to the same value.
 
-    Data Mode:      This mode indicates if key/value sets/gets are unidirectional or bi-directional.
-                    Currently this setting is fully functional.
-                        uni = Sets and gets are one-way.  (e.g. loading a map of "Ian Frei | Joe Yup" only matches "Ian Frei | Joe Yup", but not "Joe Yup | Ian Frei")
-                        bid = Sets and gets are two-way.  (e.g. loading a map of "Ian|Joe" matches either "Ian|Joe" or "Joe|Ian")
-
+    Sync Schedule:  This rule indicates the schedule of synchronization, in minutes.
+                    Currently there is no limit on accepted values, and recommended values likely between 1-10 (TBD)
 """
 
 import abc
 import json
 
 __author__ = "Michael Rais"
-__version__ = "0.5-alpha"
+__version__ = "0.7-beta"
 __maintainer__ = "Michael Rais"
 __email__ = "mrais@inbox.com"
 
@@ -63,6 +70,8 @@ class ConfigurationAbstract(metaclass=abc.ABCMeta):
         self.rangeRule = 'alphanum'
         self.dataMode = 'bid'
         self.controlMode = 'interactive'
+        self.syncRule = 'file'
+        self.syncSchedule = '1'
         self.configJson = ''
         # Load of configuration.
         self.load_configuration_file()
@@ -70,10 +79,12 @@ class ConfigurationAbstract(metaclass=abc.ABCMeta):
     def set_config_string(self):
         configJson = (
             '{'
+            '"controlMode" : "' + self.controlMode + '", '
+            '"dataMode" : "' + self.dataMode + '", '
             '"initRule" : "' + self.initRule + '", '
             '"rangeRule" : "' + self.rangeRule + '", '
-            '"dataMode" : "' + self.dataMode + '", '
-            '"controlMode" : "' + self.controlMode + '"'
+            '"syncRule" : "' + self.syncRule + '", '
+            '"syncSchedule" : "' + self.syncSchedule + '"' 
             '}'
         )  # Init of default settings
         self.configJson = json.loads(configJson)  # NOTE: "loads" is for strings.  "load" is for file.
@@ -114,6 +125,10 @@ class ConfigurationAbstract(metaclass=abc.ABCMeta):
                     self.dataMode = value
                 elif key == 'controlMode':
                     self.controlMode = value
+                elif key == 'syncRule':
+                    self.syncRule = value
+                elif key == 'syncSchedule':
+                    self.syncSchedule = value
                 else:
                     print("  \-> WARNING: Unexpected config key '" + key + "' can't be used.")
             configJson = self.set_config_string()

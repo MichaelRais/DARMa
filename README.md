@@ -32,6 +32,7 @@ Anyone with design feedback please reach out to me and let me hear it through Gi
 <li>Interface (API): DarmaDao.py
 <li>Configuration file: config.json
 <li>Data file: mappings.txt
+<li>Synchronizer: Executes in background per schedule
 </ul>
 
 # Requirements
@@ -41,7 +42,7 @@ Anyone with design feedback please reach out to me and let me hear it through Gi
 
 # Reference Documents
 <ul>
-<li>Conceptual class diagram:  'reference/DARMa-class-diag_v2.2.jpg'
+<li>Conceptual class diagram:  '<a href="reference/DARMa-class-diag_v3.0.jpg">'
 <li>Benchmark results:  'reference/20150526_benchmark-results.txt'
 <li>Demo script screenshot:  'reference/demoScriptScreenshot.tiff'
 </ul>
@@ -100,13 +101,25 @@ Contents Example:   The file format is a text file with pipe delimited mapping p
 Config file:        ./config.json
 Contents Example:   Note that without config.json defaults are used, and controlMode is "interactive"
                     {
+                        "controlMode": "interactive",
+                        "dataMode": "uni",
                         "initRule": "file",
                         "rangeRule": "alphanum",
-                        "controlMode": "localhost",
-                        "dataMode": "bid"
+                        "syncRule": "file",
+                        "syncSchedule": "1"
                     }
 
 Options Description:
+    Control Mode:   This mode indicates where the controlling NoSQL abstraction layer is running.
+                    Currently the only accepted value for the demonstrator is: "production" or "interactive".
+                        production = The DARMa service runs in production mode per settings.
+                        interactive = Demo mode and default.  Not for production.  The DARMa service runs locally in interactive demo mode.
+
+    Data Mode:      This mode indicates if key/value sets/gets are unidirectional or bi-directional.
+                    Currently this setting is fully functional.
+                        uni = Sets and gets are one-way.  (e.g. loading a map of "Ian Frei | Joe Yup" only matches "Ian Frei | Joe Yup", but not "Joe Yup | Ian Frei")
+                        bid = Sets and gets are two-way.  (e.g. loading a map of "Ian|Joe" matches either "Ian|Joe" or "Joe|Ian")
+
     Init Rule:      This rule indicates where data is loaded from on initialization.
                     Currently the only accepted value for the demonstrator is: file
                         file = load data from pipe-delimited text file.
@@ -121,20 +134,18 @@ Options Description:
                     Future values will be: range
                             range = sub-division by primary key ranges
 
-    Control Mode:   This mode indicates where the controlling NoSQL abstraction layer is running.
-                    Currently the only accepted value for the demonstrator is: "localhost" or "interactive".
-                        localhost = The DARMa service runs locally and data managed locally after start-up
-                        interactive = Demo mode and default.  Not for production.  The DARMa service runs locally in interactive demo mode.
-                    Future values will be: cluster
-                        cluster = A remote service is being used to manage data after start-up.  Could be anything that gets plugged in.
+    Sync Rule:      This rule indicates where data is synchronized during runtime, after initialization.
+                    Currently the only accepted value for the demonstrator is: file
+                        file = Picked (TBD) data delivered to holding directory on schedule set by "syncSchedule"
+                    Future values will be:  Same as "Init Rule" future values.   However, they don't require being set to the same value.
 
-    Data Mode:      This mode indicates if key/value sets/gets are unidirectional or bi-directional.
-                    Currently this setting is fully functional.
-                        uni = Sets and gets are one-way.  (e.g. loading a map of "Ian Frei | Joe Yup" only matches "Ian Frei | Joe Yup", but not "Joe Yup | Ian Frei")
-                        bid = Sets and gets are two-way.  (e.g. loading a map of "Ian|Joe" matches either "Ian|Joe" or "Joe|Ian")
+    Sync Schedule:  This rule indicates the schedule of synchronization, in minutes.
+                    Currently there is no limit on accepted values, and recommended values likely between 1-10 (TBD)
+
 
 </pre>
 
 # Release History: 
+   -20150531++(M. Rais):  v0.7.0 -  In progress.  Added synchronizer thread.  Continued development<br>
    -20150526(M. Rais):  v0.6.0 - Stable development beta demonstrator.  As-is, needs more QA, unit tests, and documentation.  Further updates if project continues.<br>
    -20150525(M. Rais):  v0.5.0 - First stable alpha demonstrator. Cleaned up files/headers. Updated class diagram.  SIF5 becoming v0.5.0-alpha.  

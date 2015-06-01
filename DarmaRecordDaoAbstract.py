@@ -12,7 +12,7 @@ Note:               In Java-land this would be the interface.
 import abc
 
 __author__ = "Michael Rais"
-__version__ = "0.5-alpha"
+__version__ = "0.7-beta"
 __maintainer__ = "Michael Rais"
 __email__ = "mrais@inbox.com"
 

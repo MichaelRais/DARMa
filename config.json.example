@@ -1,6 +1,8 @@
 {
-    "initRule": "file",
-    "dataMode": "uni",
     "controlMode": "interactive",
-    "rangeRule": "alphanum"
+    "dataMode": "uni",
+    "initRule": "file",
+    "rangeRule": "alphanum",
+    "syncRule": "file",
+    "syncSchedule": "1"
 }

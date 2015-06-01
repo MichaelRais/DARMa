@@ -28,7 +28,7 @@ import traceback
 #from DarmaDao import DarmaDao # QUESTION: To avoid briefly using excess memory in production, I could call add_value_map from here, instead of passing back file contents.  Convention?
 
 __author__ = "Michael Rais"
-__version__ = "0.5-alpha"
+__version__ = "0.7-beta"
 __maintainer__ = "Michael Rais"
 __email__ = "mrais@inbox.com"
 
@@ -49,6 +49,7 @@ class Loader():
             pass
         elif initRuleValue == "file":
             returnData = self.load_from_file(controlModeValue, loadFrom)
+        print("INFORMATION: Data loaded from source per 'initRule' and 'controlMode' settings.")
         return returnData
 
     def load_from_mysql(self, controlModeValue):
@@ -70,10 +71,7 @@ class Loader():
         else:
             mappingFile = loadFrom
 
-        if controlModeValue == "remote":
-            # Logic for remote file load TBD
-            pass
-        elif controlModeValue == "localhost" or controlModeValue == "interactive":
+        if controlModeValue == "production" or controlModeValue == "interactive":
             if controlModeValue == "interactive":
                 # For interactive run mode file delivered in argument. 
                 if len(sys.argv) != 2:

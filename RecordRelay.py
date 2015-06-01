@@ -9,7 +9,7 @@ Python Version:     QA'd on Python 3.4.1
 from Record import Record
 
 __author__ = "Michael Rais"
-__version__ = "0.5-alpha"
+__version__ = "0.7-beta"
 __maintainer__ = "Michael Rais"
 __email__ = "mrais@inbox.com"
 

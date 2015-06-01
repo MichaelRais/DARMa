@@ -32,7 +32,7 @@ import re
 from DarmaDao import DarmaDao
 
 __author__ = "Michael Rais"
-__version__ = "0.5-alpha"
+__version__ = "0.7-beta"
 __maintainer__ = "Michael Rais"
 __email__ = "mrais@inbox.com"
 
@@ -44,7 +44,7 @@ def main():
             if not scriptWrapCache:
                 dd = DarmaDao()
                 show_cfg_dd = dd.get_configuration_info()
-                print("\n>Configuration Information: \n" + show_cfg_dd + "\n")
+                print("\n>Configuration applied: \n" + show_cfg_dd + "\n")
                 init_dd = dd.initialize_record_array()
                 scriptWrapCache = init_dd
             try:

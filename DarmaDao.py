@@ -24,10 +24,11 @@ import abc
 from ConfigurationAbstract import ConfigurationAbstract
 from DarmaRecordDaoAbstract import DarmaRecordDaoAbstract
 from Loader import Loader
+from Synchronizer import Synchronizer
 from RecordRelay import RecordRelay
 
 __author__ = "Michael Rais"
-__version__ = "0.5-alpha"
+__version__ = "0.7-beta"
 __maintainer__ = "Michael Rais"
 __email__ = "mrais@inbox.com"
 
@@ -43,6 +44,8 @@ class DarmaDao(DarmaRecordDaoAbstract, ConfigurationAbstract):
         self.controlModeValue = ConfigurationAbstract.get_configuration_value(self, self.configJson, 'controlMode')
         self.initRuleValue = ConfigurationAbstract.get_configuration_value(self, self.configJson, 'initRule')
         self.dataModeValue = ConfigurationAbstract.get_configuration_value(self, self.configJson, 'dataMode')
+        self.syncRuleValue = ConfigurationAbstract.get_configuration_value(self, self.configJson, 'syncRule')
+        self.syncScheduleValue = ConfigurationAbstract.get_configuration_value(self, self.configJson, 'syncSchedule')
         """
         TBD if this is implemented here.  Consistent with interface, but not required.
         return ConfigurationAbstract.load_configuration_file(self)
@@ -64,11 +67,13 @@ class DarmaDao(DarmaRecordDaoAbstract, ConfigurationAbstract):
         return ConfigurationAbstract.load_configuration_file(self)
 
     def initialize_record_array(self, loadFrom=None):
-        # Gets Configuration information and loads array accordingly. The argument 'loadFrom' is optional, and can contain filename.
-        ddLoader = Loader()
+        # Loads array according to config. The argument 'loadFrom' is optional, and can contain filename.  Starts synchronizer thread after load.
+        ddLoader = Loader() 
         ddLoaderData = ddLoader.load_records(self.controlModeValue, self.initRuleValue, loadFrom)
         for source,target in ddLoaderData:
             self.add_value_map(source,target)
+        ddSynchronizer = Synchronizer()
+        _ = ddSynchronizer.start(self.syncRuleValue, self.syncScheduleValue)
         return True
 
     def add_value_map(self, source, target):     
