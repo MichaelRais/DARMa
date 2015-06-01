@@ -42,7 +42,7 @@ Anyone with design feedback please reach out to me and let me hear it through Gi
 
 # Reference Documents
 <ul>
-<li>Conceptual class diagram:  '<a href="reference/DARMa-class-diag_v3.0.jpg">'
+<li>Conceptual class diagram:  '<a href="reference/DARMa-class-diag_v3.0.jpg">reference/DARMa-class-diag_v3.0.jpg</a>'
 <li>Benchmark results:  'reference/20150526_benchmark-results.txt'
 <li>Demo script screenshot:  'reference/demoScriptScreenshot.tiff'
 </ul>
