@@ -4,5 +4,6 @@
     "initRule": "file",
     "rangeRule": "alphanum",
     "syncRule": "file",
-    "syncSchedule": "1"
+    "syncSchedule": "1",
+    "logDirectory": "logs"
 }
