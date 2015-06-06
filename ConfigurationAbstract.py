@@ -72,6 +72,7 @@ class ConfigurationAbstract(metaclass=abc.ABCMeta):
         self.controlMode = 'interactive'
         self.syncRule = 'file'
         self.syncSchedule = '1'
+        self.logDirectory = 'logs'
         self.configJson = ''
         # Load of configuration.
         self.load_configuration_file()
@@ -84,7 +85,8 @@ class ConfigurationAbstract(metaclass=abc.ABCMeta):
             '"initRule" : "' + self.initRule + '", '
             '"rangeRule" : "' + self.rangeRule + '", '
             '"syncRule" : "' + self.syncRule + '", '
-            '"syncSchedule" : "' + self.syncSchedule + '"' 
+            '"syncSchedule" : "' + self.syncSchedule + '", '
+            '"logDirectory" : "' + self.logDirectory + '"'
             '}'
         )  # Init of default settings
         self.configJson = json.loads(configJson)  # NOTE: "loads" is for strings.  "load" is for file.
@@ -129,6 +131,8 @@ class ConfigurationAbstract(metaclass=abc.ABCMeta):
                     self.syncRule = value
                 elif key == 'syncSchedule':
                     self.syncSchedule = value
+                elif key == 'logDirectory':
+                    self.logDirectory = value
                 else:
                     print("  \-> WARNING: Unexpected config key '" + key + "' can't be used.")
             configJson = self.set_config_string()

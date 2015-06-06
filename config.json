@@ -1,0 +1,9 @@
+{
+    "controlMode": "interactive",
+    "dataMode": "uni",
+    "initRule": "file",
+    "rangeRule": "alphanum",
+    "syncRule": "file",
+    "syncSchedule": "1",
+    "logDirectory": "logs"
+}

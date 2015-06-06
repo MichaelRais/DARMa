@@ -46,12 +46,13 @@ class DarmaDao(DarmaRecordDaoAbstract, ConfigurationAbstract):
         self.dataModeValue = ConfigurationAbstract.get_configuration_value(self, self.configJson, 'dataMode')
         self.syncRuleValue = ConfigurationAbstract.get_configuration_value(self, self.configJson, 'syncRule')
         self.syncScheduleValue = ConfigurationAbstract.get_configuration_value(self, self.configJson, 'syncSchedule')
+        self.logDirectoryValue = ConfigurationAbstract.get_configuration_value(self, self.configJson, 'logDirectory')
         """
         TBD if this is implemented here.  Consistent with interface, but not required.
         return ConfigurationAbstract.load_configuration_file(self)
         """
         # Instantiation
-        self.rRelay = RecordRelay(self.dataModeValue) # >>> Determine best placement - needs singleton or factory??? <<<
+        self.rRelay = RecordRelay(self.dataModeValue, self.logDirectoryValue) # >>> Determine best placement - needs singleton or factory??? <<<
 
     def get_configuration_info(self):
         #return super(DarmaDao,self).get_configuration_info()
