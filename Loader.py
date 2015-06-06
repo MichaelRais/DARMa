@@ -49,7 +49,9 @@ class Loader():
             pass
         elif initRuleValue == "file":
             returnData = self.load_from_file(controlModeValue, loadFrom)
-        print("INFORMATION: Data loaded from source per 'initRule' and 'controlMode' settings.")
+        
+        if controlModeValue == "interactive":
+            print("INFORMATION: Data loaded from source per 'initRule' and 'controlMode' settings.")
         return returnData
 
     def load_from_mysql(self, controlModeValue):

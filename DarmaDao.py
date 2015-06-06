@@ -21,6 +21,8 @@ Usage Note:         Current prototype has one namespace, and requires that mappi
 """
 
 import abc
+import functools
+from time import gmtime, strftime
 from ConfigurationAbstract import ConfigurationAbstract
 from DarmaRecordDaoAbstract import DarmaRecordDaoAbstract
 from Loader import Loader
@@ -46,12 +48,15 @@ class DarmaDao(DarmaRecordDaoAbstract, ConfigurationAbstract):
         self.dataModeValue = ConfigurationAbstract.get_configuration_value(self, self.configJson, 'dataMode')
         self.syncRuleValue = ConfigurationAbstract.get_configuration_value(self, self.configJson, 'syncRule')
         self.syncScheduleValue = ConfigurationAbstract.get_configuration_value(self, self.configJson, 'syncSchedule')
+        self.logDirectoryValue = ConfigurationAbstract.get_configuration_value(self, self.configJson, 'logDirectory')
         """
         TBD if this is implemented here.  Consistent with interface, but not required.
         return ConfigurationAbstract.load_configuration_file(self)
         """
         # Instantiation
-        self.rRelay = RecordRelay(self.dataModeValue) # >>> Determine best placement - needs singleton or factory??? <<<
+        self.rRelay = RecordRelay(self.dataModeValue, self.logDirectoryValue) # >>> Determine best placement - needs singleton or factory??? <<<
+        self.Synchronizer = Synchronizer()
+        _ = self.Synchronizer.start(self.syncRuleValue, self.syncScheduleValue, self.controlModeValue, self.logDirectoryValue)
 
     def get_configuration_info(self):
         #return super(DarmaDao,self).get_configuration_info()
@@ -71,12 +76,10 @@ class DarmaDao(DarmaRecordDaoAbstract, ConfigurationAbstract):
         ddLoader = Loader() 
         ddLoaderData = ddLoader.load_records(self.controlModeValue, self.initRuleValue, loadFrom)
         for source,target in ddLoaderData:
-            self.add_value_map(source,target)
-        ddSynchronizer = Synchronizer()
-        _ = ddSynchronizer.start(self.syncRuleValue, self.syncScheduleValue)
+            self.add_value_map(source, target, init=1)
         return True
 
-    def add_value_map(self, source, target):     
+    def add_value_map(self, source, target, init=None):     
         returnval = False
         if self.dataModeValue == "uni":
             self.rRelay.set_value(source.strip(), target.strip())
@@ -85,6 +88,11 @@ class DarmaDao(DarmaRecordDaoAbstract, ConfigurationAbstract):
             self.rRelay.set_value(source.strip(), target.strip())
             self.rRelay.set_value(target.strip(), source.strip())
             returnval = True
+        # Log value adds, but don't log calls to "initialize_record_array()", as redundant
+        if  init: 
+            time_now = strftime("%a, %d %b %Y %H:%M:%S +0000", gmtime())
+            cache_log_string = time_now + " : INSERT INTO ${table} (${col1}, ${col2}) VALUES (" + str(source) + "," + str(target) + ")" # account for ' & "
+            self.Synchronizer.cache.append(cache_log_string)
         return returnval
 
     def get_value_map(self, source, target):
@@ -108,6 +116,11 @@ class DarmaDao(DarmaRecordDaoAbstract, ConfigurationAbstract):
         elif self.dataModeValue == "bid":
             if self.rRelay.del_value(target.strip(), source.strip()):
                 returnval = True
+        
+        # Deletes always logged since they are only invoked after init.
+        time_now = strftime("%a, %d %b %Y %H:%M:%S +0000", gmtime())
+        cache_log_string = time_now + " : DELETE FROM ${table} WHERE ${col1} = '" + str(source) + "' AND ${col2} = '" + str(target) + "'" # account for ' & "
+        self.Synchronizer.cache.append(cache_log_string)
         return returnval
 
     def get_values(self, source):
