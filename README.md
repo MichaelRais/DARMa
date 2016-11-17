@@ -22,9 +22,9 @@ Think of DARMa as a locally hosted memcached service.   It's written in Python, 
 <li>The data itself is partitioned by DARMa's config, which would indicate whether to partition on alphanumeric or on ranges of id's - that's just for some simplistic optimization of data structure usage with parallelization in mind.   It also allows for the NoSQL backend to get swapped, so if the user wants to use Redis or Memcached at a future date, they can just swap it in via DARMa config and then on the backend DARMa just routes the requests to the configured service.   (This is currently implicit in design - not explicit)
 </ul>
 
-Anyone with design feedback please reach out to me and let me hear it through Github or LinkedIn:<br>
+Anyone with design feedback reach out to me and let me hear it through Github or LinkedIn:<br>
         https://www.linkedin.com/in/michaelrais/
-<br><i>I'd like to get an architect involved.</i>
+<br><i>If you review the code (as some have), you've already put the time in, so send in your thoughts, cloners!   It's a WIP after all.</i>
 
 # Main Components
 <ul>
@@ -42,7 +42,7 @@ Anyone with design feedback please reach out to me and let me hear it through Gi
 
 # Reference Documents
 <ul>
-<li>Conceptual class diagram:  '<a href="reference/DARMa-class-diag_v3.0.jpg">reference/DARMa-class-diag_v3.0.jpg</a>'
+<!-- Diagram/design needs a rework, so removing link for now - <li>Conceptual class diagram:  '<a href="reference/DARMa-class-diag_v3.0.jpg">reference/DARMa-class-diag_v3.0.jpg</a>'-->
 <li>Benchmark results:  'reference/20150526_benchmark-results.txt'
 <li>Demo script screenshot:  'reference/demoScriptScreenshot.tiff'
 </ul>
